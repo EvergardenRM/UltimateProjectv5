@@ -28,8 +28,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('contact/', views.contact, name="contacto"),
     path('producto_cliente/', views.producto_cliente, name="producto_cliente"),
-
-
+    path('producto_cliente/', views.producto_cliente, name="alfredoproducto"),
 
 
 ]
