@@ -1,4 +1,6 @@
+{% extends 'Clientes.html' %}
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -6,16 +8,22 @@
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
     <title>FRIO DURAN</title>
 
-    <!-- Estilos y fuentes del template  -->
+    <!-- Bootstrap core CSS -->
     <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css'%}" rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
     <link href="{% static 'vendor/font-awesome/css/font-awesome.min.css'%}" rel="stylesheet" type="text/css">
     <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
-    <link href="{% static 'css/clean-blog.min.css'%}" rel="stylesheet">
     <link rel="icon" href="/static/img/logo.ico">
+    <!-- Custom styles for this template -->
+    <link href="{% static 'css/clean-blog.min.css'%}" rel="stylesheet">
+
   </head>
 
   <body>
@@ -25,52 +33,63 @@
       <div class="container">
         <a class="navbar-brand" href="/">FRIO DURAN</a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-            Menú
+          Menú
           <i class="fa fa-bars"></i>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
-
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'caja' %}">Inicio</a>
+              <a class="nav-link" href="/">Portada</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'about' %}">Acerca de</a>
-
+              <a class="nav-link" href="/about/">Acerca de</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'producto_cliente' %}">Producto</a>
+              <a class="nav-link" href="/portafolio/">Producto</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'cliente_facturas' %}">Recibos de Factura</a>
+              <a class="nav-link" href="/contacto/">Contacto</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{%  url 'contacto' %}">Contacto</a>
-            </li>
-
           </ul>
         </div>
       </div>
     </nav>
 
     <!-- Cabecera -->
-    <header class="masthead" style="background-image: url({% static 'img/portada.jpg' %})">
+    <header class="masthead" style="background-image: url('/static/img/ubicacion.jpg')">
       <div class="overlay"></div>
       <div class="container">
         <div class="row">
-          <div class="col-lg-08 col-md-10 mx-auto">
+          <div class="col-lg-8 col-md-10 mx-auto">
             <div class="site-heading">
-              {% block tema %} {% endblock %}
-              <span class="subheading">FRIO  DURAN</span>
+              <h1>Acerca de</h1>
+              <span class="subheading">FRIO DURAN</span>
             </div>
           </div>
         </div>
       </div>
     </header>
 
+    <!-- Contenido Principal -->
+    {%  block contert %}
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-3 col-md-4 offset-lg-1">
+          <img class="img-fluid avatar" src="{% static 'img/logo.gif' %}" alt="">
+        </div>
+        <div class="col-lg-7 col-md-8">
+          <h2 class="section-heading">FRIO DURAN</h2>
+          <p>Venta por menor de línea blanca y repuestos en General. Las mejores marcas, los mejores repuestos y los mejores precios. </p>
+          <p> </p>
+        </div>
+      </div>
+    </div>
+    {% endblock %}
+
+    <hr>
+
     <!-- Pié de página -->
     <footer>
-        {% block contert %} {% endblock %}
       <div class="container">
         <div class="row">
           <div class="col-lg-8 col-md-10 mx-auto">
@@ -100,18 +119,23 @@
                 </a>
               </li>
             </ul>
-            <p class="copyright text-muted">Copyright &copy; 2020 · FRIO  DURAN S.A </p>
+            <p class="copyright text-muted">Copyright &copy; 2018 · FRIO DURAN S.A </p>
           </div>
         </div>
       </div>
     </footer>
 
-
-    <!-- Bootstrap y Javascripts -->
+    <!-- jQuert y Bootstrap -->
     <script src="{% static 'vendor/jquery/jquery.min.js'%}"></script>
     <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
-    <script src="{% static 'js/clean-blog.min.js'%}"></script>
+
+    <!-- Scripts del template -->
+    <script src="/static/js/clean-blog.min.js"></script>
 
   </body>
+{% block tema %}
+    <h1>Acerca de</h1>
+{% endblock %}
+
 
 </html>

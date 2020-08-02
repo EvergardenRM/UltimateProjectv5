@@ -19,13 +19,17 @@ def about(request, plantilla="about.html"):
 
 def cliente(request,):
     return render(request,"Clientes.html")
-
+def about(request,):
+    return render(request,"about.html")
 def bodega(request,):
     return render(request,"bodega.html")
 def contact(request,):
     return render(request,"contact.html")
 def producto_cliente(request,):
     return render(request,"producto_cliente.html")
+def recibo_factura(request,):
+    return render(request,"recibo_factura.html")
+
 
 def telf(request,plantilla="Ingreso_Fact_help.html"):
     return render(request,plantilla)
