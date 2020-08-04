@@ -30,9 +30,12 @@ urlpatterns = [
     path('producto_cliente/', views.producto_cliente, name="producto_cliente"),
     path('about/', views.about, name="about"),
     path('fact/', views.recibo_factura, name="cliente_facturas"),
-
-
-
-
-
+    path('factura/', views.factura, name="facturas"),
+    path('ingresar_cliente/', views.ingresar_clientes, name="ingresar_factura"),
+    path('producto_caja/', views.producto_caja, name="producto_caja"),
+    path('entrada_mercaderia/', views.entradas, name="entrada_producto"),
+    path('salida_productos/', views.salidas, name="salida_producto"),
+    path('salida_bodega/', views.producto_bodega, name="producto_bodega"),
+    path('help_bodega/', views.help_bodega, name="help_bodega"),
+    path('help_caja/', views.help_caja, name="help_caja"),
 ]

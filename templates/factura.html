@@ -1,5 +1,4 @@
-{% extends 'Clientes.html' %}
-
+{% extends 'caja.html' %}
 {%  load static %}
 <!DOCTYPE html>
 	<html lang="es">
@@ -58,7 +57,7 @@
 	          <div class="col-lg-8 col-md-10 mx-auto">
 	            <div class="site-heading">
 	              <h1>Productos</h1>
-	              <span class="subheading">REFRESCATE TU VIDA</span>
+	              <span class="subheading">REFRECA TU VIDA</span>
 	            </div>
 	          </div>
 	        </div>
@@ -67,29 +66,27 @@
 
 	    <!-- Contenido Principal -->
         {% block contert %}
-
-
 	    <div class="container">
 	      <!-- Proyecto -->
 	      <div class="row project">
 	      	<div class="col-lg-3 col-md-4 offset-lg-1">
-			      <img class="img-fluid" src="/static/img/portada4.jpg" alt="">
+			      <img class="img-fluid" src="{% static 'img/img1.jpg' %}" alt="">
 	      	</div>
 	        <div class="col-lg-7 col-md-8">
-	      		<h2 class="section-heading title">Licuadoras</h2>
-	          <p>XXXXXXXXXXX</p>
-	          <p><a href="https://www.facebook.com/frioduran">Más información</a></p>
+	      		<h2 class="section-heading title">Crear Factura</h2>
+	          <p>Formulario de Factura</p>
+	          <p><a href="https://www.facebook.com/frioduran">Iniciar</a></p>
 	      	</div>
 	      </div>
 	      <!-- Proyecto -->
 	      <div class="row project">
 	      	<div class="col-lg-3 col-md-4 offset-lg-1">
-			      <img class="img-fluid" src="/static/img/portafolio3.jpg" alt="">
+			      <img class="img-fluid" src="{% static 'img/img2.png' %}" alt="">
 	      	</div>
 	        <div class="col-lg-7 col-md-8">
-	      		<h2 class="section-heading title">Aire Acondicionado</h2>
-	          <p>XXXXXXX</p>
-	          <p><a href="https://www.facebook.com/frioduran">Más información</a></p>
+	      		<h2 class="section-heading title">Ver factura</h2>
+	          <p>Prodras ver y imprimir facturas</p>
+	          <p><a href="https://www.facebook.com/frioduran">Ver</a></p>
 	      	</div>
 	      </div>
 		  </div>
@@ -98,7 +95,6 @@
 	    <!-- Pié de página -->
 	    <footer>
 	    	<hr>
-
 	      <div class="container">
 	        <div class="row">
 	          <div class="col-lg-8 col-md-10 mx-auto">
@@ -140,9 +136,9 @@
 	    <script src="/static/js/clean-blog.min.js"></script>
 
 	  </body>
-
 {% block tema %}
-    <h1>Productos</h1>
+    <h1>Facturas</h1>
 {% endblock %}
+
 
 	</html>

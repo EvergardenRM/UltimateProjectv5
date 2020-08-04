@@ -1,8 +1,7 @@
-{% extends 'Clientes.html' %}
-
+{% extends "Bodega.html" %}
 {%  load static %}
-<!DOCTYPE html>
-	<html lang="es">
+
+<html lang="es">
 
 	  <head>
 
@@ -19,7 +18,10 @@
 	    <link href="{% static 'css/clean-blog.min.css' %}" rel="stylesheet">
         <link rel="icon" href="/static/img/logo.ico">
 
+
+
 	  </head>
+
 
 	  <body>
 
@@ -40,7 +42,7 @@
 	              <a class="nav-link" href="/about/">Acerca de</a>
 	            </li>
 	            <li class="nav-item">
-	              <a class="nav-link" href="portfolio.html">Facturacion</a>
+	              <a class="nav-link" href="{%  url 'cliente' %}">Facturacion</a>
 	            </li>
 	            <li class="nav-item">
 	              <a class="nav-link" href="/contacto/">Contacto</a>
@@ -51,14 +53,14 @@
 	    </nav>
 
 	    <!-- Cabecera -->
-	    <header class="masthead" style="background-image: url('/static/img/portada.jpg')">
+	    <header class="masthead" style="background-image: url('/static/img/portada5.jpg')">
 	      <div class="overlay"></div>
 	      <div class="container">
 	        <div class="row">
 	          <div class="col-lg-8 col-md-10 mx-auto">
 	            <div class="site-heading">
-	              <h1>Productos</h1>
-	              <span class="subheading">REFRESCATE TU VIDA</span>
+	              <h1> Contactos</h1>
+	              <span class="subheading">Empresa</span>
 	            </div>
 	          </div>
 	        </div>
@@ -67,29 +69,27 @@
 
 	    <!-- Contenido Principal -->
         {% block contert %}
-
-
 	    <div class="container">
 	      <!-- Proyecto -->
 	      <div class="row project">
 	      	<div class="col-lg-3 col-md-4 offset-lg-1">
-			      <img class="img-fluid" src="/static/img/portada4.jpg" alt="">
+			      <img class="img-fluid" src="{% static 'img/img5.png' %}" alt="">
 	      	</div>
 	        <div class="col-lg-7 col-md-8">
-	      		<h2 class="section-heading title">Licuadoras</h2>
-	          <p>XXXXXXXXXXX</p>
-	          <p><a href="https://www.facebook.com/frioduran">Más información</a></p>
+	      		<h2 class="section-heading title">Ingresar Entradas de Productos</h2>
+	          <p>Ingresar la entrada de Produtos a la Bodega</p>
+	          <p><a href="https://www.facebook.com/frioduran">Iniciar</a></p>
 	      	</div>
 	      </div>
 	      <!-- Proyecto -->
 	      <div class="row project">
 	      	<div class="col-lg-3 col-md-4 offset-lg-1">
-			      <img class="img-fluid" src="/static/img/portafolio3.jpg" alt="">
+			      <img class="img-fluid" src="{% static 'img/img7.png' %}" alt="">
 	      	</div>
 	        <div class="col-lg-7 col-md-8">
-	      		<h2 class="section-heading title">Aire Acondicionado</h2>
-	          <p>XXXXXXX</p>
-	          <p><a href="https://www.facebook.com/frioduran">Más información</a></p>
+	      		<h2 class="section-heading title">Consultar</h2>
+	          <p>Consultar Entradas</p>
+	          <p><a href="https://www.facebook.com/frioduran">Abrir</a></p>
 	      	</div>
 	      </div>
 		  </div>
@@ -98,7 +98,6 @@
 	    <!-- Pié de página -->
 	    <footer>
 	    	<hr>
-
 	      <div class="container">
 	        <div class="row">
 	          <div class="col-lg-8 col-md-10 mx-auto">
@@ -140,9 +139,10 @@
 	    <script src="/static/js/clean-blog.min.js"></script>
 
 	  </body>
-
 {% block tema %}
-    <h1>Productos</h1>
+    <h1>Entradas de Productos </h1>
 {% endblock %}
 
+
 	</html>
+

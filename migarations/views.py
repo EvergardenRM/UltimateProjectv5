@@ -19,8 +19,7 @@ def about(request, plantilla="about.html"):
 
 def cliente(request,):
     return render(request,"Clientes.html")
-def about(request,):
-    return render(request,"about.html")
+
 def bodega(request,):
     return render(request,"bodega.html")
 def contact(request,):
@@ -29,6 +28,35 @@ def producto_cliente(request,):
     return render(request,"producto_cliente.html")
 def recibo_factura(request,):
     return render(request,"recibo_factura.html")
+def factura(request,):
+    return render(request,"factura.html")
+def ingresar_clientes(request,):
+    return render(request,"ingresar_cliente.html")
+def producto_caja(request,):
+    return render(request,"producto_caja.html")
+def entradas(request,):
+    return render(request,"entrada_mercaderia.html")
+def salidas(request,):
+    return render(request,"salida_mercaderia.html")
+def producto_bodega(request,):
+    return render(request,"producto_bodega.html")
+
+def help_bodega(request,):
+    return render(request,"help.html")
+def help_caja(request,):
+    return render(request,"help_consulta_fact.html")
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 def telf(request,plantilla="Ingreso_Fact_help.html"):

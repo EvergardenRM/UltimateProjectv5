@@ -31,20 +31,20 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-              <a class="nav-link" href="/">Inicio</a>
+              <a class="nav-link" href="{%  url 'home' %}">Inicio</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'caja' %}">Ingresar Cliente</a>
+              <a class="nav-link" href="{% url 'ingresar_factura' %}">Ingresar Cliente</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'cliente_facturas' %}">Facturacion</a>
+              <a class="nav-link" href="{% url 'facturas' %}">Facturacion</a>
 
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'producto_cliente' %}">Producto</a>
+              <a class="nav-link" href="{% url 'producto_caja' %}">Producto</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="contact.html">Help</a>
+              <a class="nav-link" href="{%  url 'help_caja' %}">Help</a>
             </li>
 
 
@@ -60,8 +60,8 @@
         <div class="row">
           <div class="col-lg-08 col-md-10 mx-auto">
             <div class="site-heading">
-              <h1>FRIO DURAN</h1>
-              <span class="subheading">REFRESCANDO TU VIDA</span>
+              <h1>{% block tema %} {%  endblock %}</h1>
+              <span class="subheading">FRIO DURAN</span>
             </div>
           </div>
         </div>
@@ -70,6 +70,7 @@
 
     <!-- Pié de página -->
     <footer>
+        {% block contert %} {% endblock %}
       <div class="container">
         <div class="row">
           <div class="col-lg-8 col-md-10 mx-auto">

@@ -35,14 +35,17 @@
               <a class="nav-link" href="/">Inicio</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'cliente' %}"> Entrada Mercaderia </a>
+              <a class="nav-link" href="{% url 'entrada_producto' %}"> Entrada Mercaderia </a>
 
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/contacto/">Salida de Mercaderia</a>
+              <a class="nav-link" href="{% url 'salida_producto' %}">Salida de Mercaderia</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="contact.html">Help</a>
+              <a class="nav-link" href="{% url 'producto_bodega' %}">Productos</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'help_bodega' %}">Help</a>
             </li>
 
 
@@ -52,14 +55,14 @@
     </nav>
 
     <!-- Cabecera -->
-    <header class="masthead" style="background-image: url('/static/img/log.jpg')">
+    <header class="masthead" style="background-image: url({% static 'img/log.jpg' %})">
       <div class="overlay"></div>
       <div class="container">
         <div class="row">
           <div class="col-lg-08 col-md-10 mx-auto">
             <div class="site-heading">
-              <h1>FRIO DURAN</h1>
-              <span class="subheading">REFRESCANDO TU VIDA</span>
+              <h1>{% block tema %} {% endblock %}</h1>
+              <span class="subheading">FRIO DURAN</span>
             </div>
           </div>
         </div>
@@ -68,6 +71,7 @@
 
     <!-- Pié de página -->
     <footer>
+        {% block contert %} {% endblock %}
       <div class="container">
         <div class="row">
           <div class="col-lg-8 col-md-10 mx-auto">
