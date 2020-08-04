@@ -45,6 +45,8 @@ def help_bodega(request,):
     return render(request,"help.html")
 def help_caja(request,):
     return render(request,"help_consulta_fact.html")
+def administrador(request,):
+    return render(request,"administrador.html")
 
 
 

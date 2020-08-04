@@ -38,4 +38,6 @@ urlpatterns = [
     path('salida_bodega/', views.producto_bodega, name="producto_bodega"),
     path('help_bodega/', views.help_bodega, name="help_bodega"),
     path('help_caja/', views.help_caja, name="help_caja"),
+    path('administrador/', views.administrador, name="administrador"),
+
 ]
