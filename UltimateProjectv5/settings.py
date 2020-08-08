@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -77,8 +78,14 @@ WSGI_APPLICATION = 'UltimateProjectv5.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        #'ENGINE': 'django.db.backends.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': 'prueba',
+        'USER': 'JordanRM',
+        'PASSWORD': 'doraluxerivas9',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
     }
 }
 
@@ -122,4 +129,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static")]
+
 

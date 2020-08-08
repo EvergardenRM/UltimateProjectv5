@@ -1,3 +1,29 @@
 from django.db import models
 
 # Create your models here.
+class project(models.Model):
+    title = models.CharField(max_length=200)
+    descripcion = models.TextField()
+    create = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+class Persona(models.Model):
+    nombre = models.CharField(max_length=200)
+    apellido = models.CharField(max_length=200)
+    edad = models.IntegerField()
+    email = models.EmailField()
+    genero = models.CharField(max_length=2)
+    estado = models.IntegerField()
+    user = models.CharField(max_length=15)
+    usermod = models.CharField(max_length=15)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = "persona"
+        verbose_name = "persona"
+        verbose_name_plural = "personas"
+        ordering = ['created']
+
+    def __str__(self):
+        return self.apellido + ' ' + self.nombre

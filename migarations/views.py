@@ -2,6 +2,12 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.shortcuts import render, HttpResponse
+from django.shortcuts import redirect
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import login as do_login
+from  django.contrib.auth import login, logout
+from django.contrib.auth import authenticate
+from django.contrib import messages
 # Create your views here.
 
 
@@ -47,6 +53,36 @@ def help_caja(request,):
     return render(request,"help_consulta_fact.html")
 def administrador(request,):
     return render(request,"administrador.html")
+def login_view(request):
+    print(request.method)
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        #print(username)
+        #print(password)
+
+        user = authenticate(username=username , password=password)
+        if user:
+            print('usuario auntenticado')
+            login(request, user)
+            messages.success(request,'Bienvenido {}'.format(user.username))
+            return redirect('home')
+
+        else:
+            print('usuario no auntenticado')
+            messages.error(request,'Usuario o Contraseña no  Valida')
+
+
+    return render(request,"Login.html",{})
+
+def logout_view(request):
+    logout(request)
+    messages.error(request,'sesion ha sido cerrado satisfactorios')
+    return redirect('login')
+
+
+
+
 
 
 
