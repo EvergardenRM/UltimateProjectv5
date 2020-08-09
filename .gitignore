@@ -1,0 +1,6 @@
+venv/
+UltimateProjectv5/__pycache__/
+migarations/__pycache__/
+migarations/migrations/0001_initial.py
+migarations/migrations/0002_persona.py
+migarations/migrations/__pycache__/
