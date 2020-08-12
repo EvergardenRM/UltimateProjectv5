@@ -83,7 +83,7 @@ DATABASES = {
         # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         'NAME': 'prueba',
         'USER': 'JordanRM',
-        'PASSWORD': 'doraluxerivas9',
+        'PASSWORD': 'doraluxe9',
         'HOST': '127.0.0.1',
         'PORT': '3306',
     }
