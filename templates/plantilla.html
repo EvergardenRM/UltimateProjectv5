@@ -1,59 +1,61 @@
-{% extends 'base.html' %}
 {% load static %}
-    <!-- Navegación -->
-    {% block contenido %}
-        <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+<!DOCTYPE html>
+<html lang="es">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>FRIO DURAN</title>
+
+    <!-- Estilos y fuentes del template  -->
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css'%}" rel="stylesheet">
+    <link href="{% static 'vendor/font-awesome/css/font-awesome.min.css'%}" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href="{% static 'css/clean-blog.min.css'%}" rel="stylesheet">
+    <link rel="icon" href="/static/img/logo.ico">
+  </head>
+
+  <body>
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
       <div class="container">
-        <a class="navbar-brand" href="/">FRIO DURAN</a>
+        <a class="navbar-brand" href="{% url 'home' %}">FRIO DURAN</a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             Menú
           <i class="fa fa-bars"></i>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="/">Inicio</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/about/">Acerca de</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/portafolio/">Producto</a>
-
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/contacto/">Contactos</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="contact.html">Facturacion</a>
-            </li>
-
-    {% endblock %}
-
-
-
+              {% block navegacion %} {% endblock %}
           </ul>
         </div>
       </div>
     </nav>
 
-    <!-- Cabecera -->
-    <header class="masthead" style="background-image: url('/static/img/log.jpg')">
+    <!-- cabecera -->
+
+    <header class="masthead" style="background-image: url({% block portada %}{%endblock%})">
       <div class="overlay"></div>
       <div class="container">
         <div class="row">
           <div class="col-lg-08 col-md-10 mx-auto">
             <div class="site-heading">
-              <h1>FRIO DURAN</h1>
-              <span class="subheading">REFRESCANDO TU VIDA</span>
+              <h1>{% block tema %} {%  endblock %}</h1>
+              <span class="subheading">{% block subtitulo %} {% endblock %}</span>
             </div>
           </div>
         </div>
       </div>
     </header>
 
-    <!-- Pié de página -->
-    <footer>
+    {% block contenido %} {% endblock %}
+
+
+  <!-- pie de pagina -->
+  <footer>
+      {% block contert %} {% endblock %}
       <div class="container">
         <div class="row">
           <div class="col-lg-8 col-md-10 mx-auto">
@@ -89,10 +91,12 @@
       </div>
     </footer>
 
+
     <!-- Bootstrap y Javascripts -->
     <script src="{% static 'vendor/jquery/jquery.min.js'%}"></script>
     <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
     <script src="{% static 'js/clean-blog.min.js'%}"></script>
+
 
   </body>
 
