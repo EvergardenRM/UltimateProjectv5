@@ -8,6 +8,8 @@ from django.contrib.auth import login as do_login
 from  django.contrib.auth import login, logout
 from django.contrib.auth import authenticate
 from django.contrib import messages
+from UltimateProjectv5.forms import RegisterForm
+from django.contrib.auth.models import User
 # Create your views here.
 
 
@@ -79,20 +81,25 @@ def logout_view(request):
     logout(request)
     messages.error(request,'sesion ha sido cerrado satisfactorios')
     return redirect('login')
+def register(request):
+    form = RegisterForm(request.POST or None)  # valida  que si hay elementos post
+    if request.method == 'POST' and form.is_valid():
+        username = form.cleaned_data.get('username')
+        email = form.cleaned_data.get('email')
+        password = form.cleaned_data.get('password')
+        user = User.objects.create_user(username,email,password)
+        #user =form.save()
+        if user:
+            login(request,user)
+            messages.success(request, 'Usuario  Creado correctamente')
+            return redirect('home')
+
+        print('Username',username)
+        print('email',email)
+        print('password',password)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+    return render(request,'Forms_register.html',{'form':form})
 
 
 

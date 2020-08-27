@@ -38,7 +38,8 @@ urlpatterns = [
     path('help_bodega/', views.help_bodega, name="help_bodega"),
     path('help_caja/', views.help_caja, name="help_caja"),
     path('administrador/', views.administrador, name="administrador"),
-    path('', views.login_view , name="login"),
     path('logout/', views.logout_view, name="logout"),
     path('admin/', admin.site.urls),
+    path('', views.login_view , name="login"),
+    path('register/', views.register, name="register"),
 ]
