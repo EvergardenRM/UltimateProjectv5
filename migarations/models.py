@@ -27,3 +27,15 @@ class Persona(models.Model):
 
     def __str__(self):
         return self.apellido + ' ' + self.nombre
+class Cliente(models.Model):
+    cedula = models.IntegerField()
+    nombre = models.CharField(max_length=200)
+    apellido = models.CharField(max_length=200)
+    edad = models.IntegerField()
+    sexo = models.CharField(max_length=20)
+
+    class Meta:
+        db_table = "cliente"
+        verbose_name = "cliente"
+        verbose_name_plural = "personas"
+

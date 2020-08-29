@@ -10,6 +10,7 @@ from django.contrib.auth import authenticate
 from django.contrib import messages
 from UltimateProjectv5.forms import RegisterForm
 from django.contrib.auth.models import User
+from UltimateProjectv5.forms import ClienteForm
 # Create your views here.
 
 
@@ -101,23 +102,12 @@ def register(request):
 
     return render(request,'Forms_register.html',{'form':form})
 
-
-
-
-def telf(request,plantilla="Ingreso_Fact_help.html"):
-    return render(request,plantilla)
-def help(request, plantilla="help.html"):
-
-    return render(request,plantilla)
-def help_ing_fact(request, plantilla="Ingreso_Fact_help.html"):
-
-    return render(request,plantilla)
-def help_imp_fact(request, plantilla="help_imprimir_fact.html"):
-
-    return render(request,plantilla)
-def help_consult_fact(request, plantilla="help_consulta_fact.html"):
-
-    return render(request,plantilla)
-def index(request, plantilla="index.html"):
-
-    return render(request,plantilla)
+def crearcliente(request, plantilla="crearcliente.html"):
+    if request.method == "POST":
+        formcliente = ClienteForm(request.POST or None)
+        if formcliente.is_valid():
+            formcliente.save()
+            return redirect("ingresar_factura")
+    else:
+        formcliente = ClienteForm()
+    return render(request, plantilla, {'formcliente': formcliente})

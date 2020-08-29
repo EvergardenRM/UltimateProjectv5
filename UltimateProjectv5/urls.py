@@ -23,8 +23,6 @@ urlpatterns = [
     path('inicio/', views.inicio, name="caja"),
     path('cliente/', views.cliente, name="cliente"),
     path('bodega/', views.bodega, name="bodega"),
-    path('telf/', views.telf, name="telf"),
-    path('help/', views.help, name="help"),
     path('contact/', views.contact, name="contacto"),
     path('producto_cliente/', views.producto_cliente, name="producto_cliente"),
     path('about/', views.about, name="about"),
@@ -42,4 +40,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.login_view , name="login"),
     path('register/', views.register, name="register"),
+path('crear_cliente/', views.crearcliente, name="crearcliente"),
 ]

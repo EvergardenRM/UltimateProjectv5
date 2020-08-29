@@ -1,4 +1,5 @@
 from django import forms
+from migarations.models import Cliente
 from django.contrib.auth.models import User
 class RegisterForm(forms.Form):
     username = forms.CharField(required=True,max_length=50,widget=forms.TextInput(attrs={'class':'form-control', 'id': 'username'}))
@@ -17,3 +18,8 @@ class RegisterForm(forms.Form):
         cleaned_data = super().clean() #obtener informacion  de la contraseña el super().
         if cleaned_data.get('password2') != cleaned_data.get('password'):
             self.add_error('password2', 'el password no coincide')
+
+class ClienteForm(forms.ModelForm):
+    class Meta:
+        model = Cliente
+        fields=['cedula','nombre', 'apellido', 'edad', 'sexo']
