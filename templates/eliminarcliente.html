@@ -1,0 +1,14 @@
+{% extends 'caja.html' %}
+{% block tema %}
+<h1>Cliente</h1>
+{% endblock %}
+
+{% block contert %}
+    <h2> Crear Cliente </h2>
+    <form method="POST" action = "">
+        {% csrf_token %}
+        {{ formcliente.as_p  }}
+
+        <input type="submit" value="Eliminar Cliente" />
+    </form>
+{% endblock %}

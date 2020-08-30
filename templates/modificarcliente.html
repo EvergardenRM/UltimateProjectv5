@@ -1,0 +1,14 @@
+{% extends 'caja.html' %}
+{% block tema %}
+<h1>Cliente</h1>
+{% endblock %}
+
+{% block contert %}
+    <h2> Modificar Cliente </h2>
+    <form method="POST" ">
+        {% csrf_token %}
+        {{ formcliente.as_p  }}
+
+        <input type="submit" value="Modificar Cliente" />
+    </form>
+{% endblock %}

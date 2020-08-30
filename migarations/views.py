@@ -113,3 +113,30 @@ def crearcliente(request, plantilla="crearcliente.html"):
     else:
         formcliente = ClienteForm()
     return render(request, plantilla, {'formcliente': formcliente})
+
+def modificarcliente(request, pk ,plantilla="modificarcliente.html"):
+    if request.method == "POST":
+        cliente = get_object_or_404(Cliente, pk=pk)
+        formcliente = ClienteForm(request.POST or None, instance=cliente)
+
+
+        if formcliente.is_valid():
+            formcliente.save()
+            return redirect("ingresar_factura")
+    else:
+        cliente = get_object_or_404(Cliente, pk=pk)
+        formcliente = ClienteForm(request.POST or None, instance=cliente)
+    return render(request, plantilla, {'formcliente': formcliente})
+def eliminarcliente(request, pk, plantilla="eliminarcliente.html"):
+    if request.method == "POST":
+        cliente = get_object_or_404(Cliente, pk=pk)
+        formCliente = ClienteForm(request.POST or None, instance=cliente)
+        if formCliente.is_valid():
+            cliente.delete()
+        return redirect("ingresar_factura")
+    else:
+        cliente = get_object_or_404(Cliente, pk=pk)
+        formcliente = ClienteForm(request.POST or None, instance=cliente)
+
+
+    return render(request, plantilla, {'formcliente': formcliente})

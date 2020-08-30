@@ -31,6 +31,7 @@ class Cliente(models.Model):
     cedula = models.IntegerField()
     nombre = models.CharField(max_length=200)
     apellido = models.CharField(max_length=200)
+    email = models.EmailField()
     edad = models.IntegerField()
     sexo = models.CharField(max_length=20)
 

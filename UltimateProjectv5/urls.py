@@ -40,5 +40,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.login_view , name="login"),
     path('register/', views.register, name="register"),
-path('crear_cliente/', views.crearcliente, name="crearcliente"),
+    path('crear_cliente/', views.crearcliente, name="crearcliente"),
+    path('modificar_cliente/<int:pk>', views.modificarcliente, name="modificar_cliente"),
+    path('eliminar_cliente/<int:pk>', views.eliminarcliente, name="eliminar_cliente"),
 ]

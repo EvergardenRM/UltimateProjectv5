@@ -6,15 +6,21 @@
 	    <div class="container">
         <div class="col-md-8" style="margin-top: 70px;">
 
-            <h2> Cliente </h2>
-
-            <div class="table-responsive">
-                <table class="table">
-                    <thead>
+            <h2> Tabla de Cliente </h2>
+            <div class="ml-auto float-right">
+                <h1></h1>
+                <a class="btn btn-primary btn-sm"  role="button" href="{% url 'crearcliente' %}">+ Crear un Nuevo Cliente</a>
+                <h1></h1>
+            </div>
+            <div class="table-responsive ">
+                <table class="table table-striped table-sm table-hover">
+                    <thead class="thead-dark">
                     <tr>
+                        <th>#</th>
                         <th>Cedula </th>
                         <th>Nombre</th>
                         <th>Apellido</th>
+                        <th>Email</th>
                         <th>Edad</th>
                         <th>Sexo</th>
 
@@ -26,14 +32,16 @@
 
                     {% for cliente in clientes %}
                         <tr>
+                            <td>{{ cliente.id }}</td>
                             <td>{{ cliente.cedula }}</td>
                             <td>{{ cliente.nombre }}</td>
                             <td>{{ cliente.apellido }}</td>
+                            <td>{{ cliente.email }}</td>
                             <td>{{ cliente.edad }}</td>
                             <td>{{ cliente.sexo }}</td>
 
-                            <td><a class="nav-link" href="#">editar</a></td>
-                            <td><a class="nav-link" href="#">eliminar</a></td>
+                            <td><a class="nav-link" href="{% url 'modificar_cliente' cliente.id %}">Editar</a></td>
+                            <td><a class="nav-link" href="{% url 'eliminar_cliente' cliente.id %}">eliminar</a></td>
 
                         </tr>
                     {% endfor %}
