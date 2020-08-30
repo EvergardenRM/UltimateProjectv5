@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 # Create your views here.
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render,  HttpResponse, redirect, get_object_or_404
 from django.shortcuts import redirect
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login as do_login
@@ -11,6 +11,7 @@ from django.contrib import messages
 from UltimateProjectv5.forms import RegisterForm
 from django.contrib.auth.models import User
 from UltimateProjectv5.forms import ClienteForm
+from .models import Cliente
 # Create your views here.
 
 
@@ -39,8 +40,9 @@ def recibo_factura(request,):
     return render(request,"recibo_factura.html")
 def factura(request,):
     return render(request,"factura.html")
-def ingresar_clientes(request,):
-    return render(request,"ingresar_cliente.html")
+def ingresar_clientes(request,plantilla= "ingresar_cliente.html"):
+    clientes = list(Cliente.objects.all())
+    return render(request, plantilla, {'clientes': clientes})
 def producto_caja(request,):
     return render(request,"producto_caja.html")
 def entradas(request,):

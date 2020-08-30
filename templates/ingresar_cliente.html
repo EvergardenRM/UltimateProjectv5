@@ -4,6 +4,50 @@
 	    <!-- Contenido Principal -->
         {% block contert %}
 	    <div class="container">
+        <div class="col-md-8" style="margin-top: 70px;">
+
+            <h2> Cliente </h2>
+
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Cedula </th>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Edad</th>
+                        <th>Sexo</th>
+
+                        <th>Editar</th>
+                        <th>Eliminar</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    {% for cliente in clientes %}
+                        <tr>
+                            <td>{{ cliente.cedula }}</td>
+                            <td>{{ cliente.nombre }}</td>
+                            <td>{{ cliente.apellido }}</td>
+                            <td>{{ cliente.edad }}</td>
+                            <td>{{ cliente.sexo }}</td>
+
+                            <td><a class="nav-link" href="#">editar</a></td>
+                            <td><a class="nav-link" href="#">eliminar</a></td>
+
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <a class="nav-link" href="{% url 'crearcliente' %}">Crear Nuevo Cliente</a>
+
+
+        </div>
+    </div>
+
+
 	      <!-- Proyecto -->
 	      <div class="row project">
 	      	<div class="col-lg-3 col-md-4 offset-lg-1">
@@ -26,5 +70,4 @@
 	          <p><a href="https://www.facebook.com/frioduran">Iniciar</a></p>
 	      	</div>
 	      </div>
-		  </div>
         {% endblock %}
