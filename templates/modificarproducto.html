@@ -5,7 +5,7 @@
 
 {% block contert %}
     <h2> Modificar Productos </h2>
-    <form method="POST" ">
+    <form method="POST" >
         {% csrf_token %}
         {{ formproducto.as_p  }}
 
