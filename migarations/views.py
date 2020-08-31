@@ -45,6 +45,7 @@ def ingresar_clientes(request,plantilla= "ingresar_cliente.html"):
 def producto_caja(request,plantilla= "producto_caja.html"):
     productos = list(Producto.objects.all())
     return render(request, plantilla, {'productos': productos})
+
 def entradas(request,):
     return render(request,"entrada_mercaderia.html")
 def salidas(request,):

@@ -19,7 +19,7 @@ from migarations import views
 
 
 urlpatterns = [
-    path('home/', views.home, name="home"),
+    
     path('inicio/', views.inicio, name="caja"),
     path('cliente/', views.cliente, name="cliente"),
     path('bodega/', views.bodega, name="bodega"),
@@ -39,6 +39,7 @@ urlpatterns = [
     path('logout/', views.logout_view, name="logout"),
     path('admin/', admin.site.urls),
     path('', views.login_view , name="login"),
+    path('home/', views.home, name="home"),
     path('register/', views.register, name="register"),
     path('crear_cliente/', views.crearcliente, name="crearcliente"),
     path('modificar_cliente/<int:pk>', views.modificarcliente, name="modificar_cliente"),

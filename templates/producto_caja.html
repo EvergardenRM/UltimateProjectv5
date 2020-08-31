@@ -1,19 +1,21 @@
 {% extends 'caja.html' %}
 {%  load static %}
-{% block tema %}<h1>Herramientas de Clientes</h1>{% endblock %}
+{% block tema %}<h1>Herramientas de Producto</h1>{% endblock %}
 	    <!-- Contenido Principal -->
         {% block contert %}
 	    <div class="container">
         <div class="col-md-8" style="margin-top: 70px;">
+            
 
-            <h2> Tabla de Clientes </h2>
+            <h2> Tabla de Producto </h2>
+            
             <div class="ml-auto float-right">
                 <h1></h1>
                 <a class="btn btn-primary btn-sm"  role="button" href="{% url 'crear_producto' %}">+ Crear un Nuevo Producto</a>
                 <h1></h1>
             </div>
             <div class="table-responsive ">
-                <table class="table table-striped table-sm table-hover">
+                <table class="table table-condensed table-striped table-sm table-hover table-bordered">
                     <thead class="thead-dark">
                     <tr>
                         <th>#</th>

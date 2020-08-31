@@ -4,11 +4,12 @@
 {% endblock %}
 
 {% block contert %}
-    <h2> Crear Cliente </h2>
+    <h2> Eliminar Producto </h2>
     <form method="POST" action = "">
         {% csrf_token %}
-        {{ formproducto.as_p  }}
-
-        <button type="submit" class="btn btn-success">Eliminar</button>
+        {{formproducto.as_p}}
+        
+        
+        <button type="submit" class="btn btn-success">Eliminar Producto</button>
     </form>
 {% endblock %}
