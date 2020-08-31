@@ -40,3 +40,18 @@ class Cliente(models.Model):
         verbose_name = "cliente"
         verbose_name_plural = "personas"
 
+class Producto(models.Model):
+    nombre = models.CharField(max_length=200)
+    descripcion = models.CharField(max_length=200)
+    precio = models.DecimalField(max_digits=6, decimal_places=2)
+    created = models.DateTimeField(auto_now_add=True)
+    update = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = "producto"
+        verbose_name = "producto"
+        verbose_name_plural = "productos"
+
+    
+
+

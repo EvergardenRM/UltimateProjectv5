@@ -8,10 +8,9 @@ from django.contrib.auth import login as do_login
 from  django.contrib.auth import login, logout
 from django.contrib.auth import authenticate
 from django.contrib import messages
-from UltimateProjectv5.forms import RegisterForm
+from UltimateProjectv5.forms import RegisterForm, ClienteForm, ProductoForm
 from django.contrib.auth.models import User
-from UltimateProjectv5.forms import ClienteForm
-from .models import Cliente
+from .models import Cliente, Producto
 # Create your views here.
 
 
@@ -43,8 +42,9 @@ def factura(request,):
 def ingresar_clientes(request,plantilla= "ingresar_cliente.html"):
     clientes = list(Cliente.objects.all())
     return render(request, plantilla, {'clientes': clientes})
-def producto_caja(request,):
-    return render(request,"producto_caja.html")
+def producto_caja(request,plantilla= "producto_caja.html"):
+    productos = list(Producto.objects.all())
+    return render(request, plantilla, {'productos': productos})
 def entradas(request,):
     return render(request,"entrada_mercaderia.html")
 def salidas(request,):
@@ -140,3 +140,39 @@ def eliminarcliente(request, pk, plantilla="eliminarcliente.html"):
 
 
     return render(request, plantilla, {'formcliente': formcliente})
+
+
+def crearproducto(request, plantilla="crearproducto.html"):
+    if request.method == "POST":
+        formproducto = ProductoForm(request.POST or None)
+        if formproducto.is_valid():
+            formproducto.save()
+            return redirect("producto_caja")
+    else:
+        formproducto = ProductoForm()
+    return render(request, plantilla, {'formproducto': formproducto})
+
+def modificarproducto(request, pk ,plantilla="modificarproducto.html"):
+    if request.method == "POST":
+        producto = get_object_or_404(Producto, pk=pk)
+        formproducto = ProductoForm(request.POST or None, instance=producto)
+        if formproducto.is_valid():
+            formproducto.save()
+            return redirect("producto_caja")
+    else:
+        producto = get_object_or_404(Producto, pk=pk)
+        formproducto = ProductoForm(request.POST or None, instance=producto)
+    return render(request, plantilla, {'formproducto': formproducto})
+def eliminarproducto(request, pk, plantilla="eliminarproducto.html"):
+    if request.method == "POST":
+        producto = get_object_or_404(Producto, pk=pk)
+        formProducto = ProductoForm(request.POST or None, instance=producto)
+        if formProducto.is_valid():
+            producto.delete()
+            return redirect("producto_caja")
+    else:
+        producto = get_object_or_404(Producto, pk=pk)
+        formproducto = ProductoForm(request.POST or None, instance=producto)
+
+
+    return render(request, plantilla, {'formproducto': formproducto})

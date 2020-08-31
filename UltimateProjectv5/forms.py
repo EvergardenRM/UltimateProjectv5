@@ -1,5 +1,5 @@
 from django import forms
-from migarations.models import Cliente
+from migarations.models import Cliente, Producto
 from django.contrib.auth.models import User
 class RegisterForm(forms.Form):
     username = forms.CharField(required=True,max_length=50,widget=forms.TextInput(attrs={'class':'form-control', 'id': 'username'}))
@@ -23,3 +23,8 @@ class ClienteForm(forms.ModelForm):
     class Meta:
         model = Cliente
         fields=['cedula','nombre', 'apellido', 'edad','email','sexo']
+class ProductoForm(forms.ModelForm):
+    
+    class Meta:
+        model = Producto
+        fields = ('nombre', 'descripcion','precio')

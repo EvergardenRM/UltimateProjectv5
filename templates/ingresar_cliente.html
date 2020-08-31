@@ -6,7 +6,7 @@
 	    <div class="container">
         <div class="col-md-8" style="margin-top: 70px;">
 
-            <h2> Tabla de Cliente </h2>
+            <h2> Tabla de Clientes </h2>
             <div class="ml-auto float-right">
                 <h1></h1>
                 <a class="btn btn-primary btn-sm"  role="button" href="{% url 'crearcliente' %}">+ Crear un Nuevo Cliente</a>
@@ -40,42 +40,15 @@
                             <td>{{ cliente.edad }}</td>
                             <td>{{ cliente.sexo }}</td>
 
-                            <td><a class="nav-link" href="{% url 'modificar_cliente' cliente.id %}">Editar</a></td>
-                            <td><a class="nav-link" href="{% url 'eliminar_cliente' cliente.id %}">eliminar</a></td>
+                            <td><a class="btn-success btn-sm nav-link" href="{% url 'modificar_cliente' cliente.id %}">Editar</a></td>
+                            <td><a class="btn-success btn-sm nav-link" href="{% url 'eliminar_cliente' cliente.id %}">eliminar</a></td>
 
                         </tr>
                     {% endfor %}
                     </tbody>
                 </table>
             </div>
-
-            <a class="nav-link" href="{% url 'crearcliente' %}">Crear Nuevo Cliente</a>
-
-
+           
         </div>
-    </div>
-
-
-	      <!-- Proyecto -->
-	      <div class="row project">
-	      	<div class="col-lg-3 col-md-4 offset-lg-1">
-			      <img class="img-fluid" src="{% static 'img/img3.png' %}" alt="">
-	      	</div>
-	        <div class="col-lg-7 col-md-8">
-	      		<h2 class="section-heading title">Ingresar Cliente</h2>
-	          <p>Ingresar un cliente a la base</p>
-	          <p><a href="{% url 'crearcliente' %}">Iniciar</a></p>
-	      	</div>
-	      </div>
-	      <!-- Proyecto -->
-	      <div class="row project">
-	      	<div class="col-lg-3 col-md-4 offset-lg-1">
-			      <img class="img-fluid" src="{% static 'img/img4.png' %}" alt="">
-	      	</div>
-	        <div class="col-lg-7 col-md-8">
-	      		<h2 class="section-heading title">Modificar Clientes</h2>
-	          <p>Modificar, Eliminar</p>
-	          <p><a href="https://www.facebook.com/frioduran">Iniciar</a></p>
-	      	</div>
-	      </div>
-        {% endblock %}
+        </div>	          
+{% endblock %}

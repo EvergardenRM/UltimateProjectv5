@@ -1,0 +1,14 @@
+{% extends 'caja.html' %}
+{% block tema %}
+<h1>Cliente</h1>
+{% endblock %}
+
+{% block contert %}
+    <h2> Modificar Productos </h2>
+    <form method="POST" ">
+        {% csrf_token %}
+        {{ formproducto.as_p  }}
+
+        <button type="submit" class="btn btn-success">Modificar Producto</button>
+    </form>
+{% endblock %}
