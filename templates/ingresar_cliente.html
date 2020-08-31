@@ -41,7 +41,7 @@
                             <td>{{ cliente.sexo }}</td>
 
                             <td><a class="btn-success btn-sm nav-link" href="{% url 'modificar_cliente' cliente.id %}">Editar</a></td>
-                            <td><a class="btn-success btn-sm nav-link" href="{% url 'eliminar_cliente' cliente.id %}">eliminar</a></td>
+                            <td><a class="btn-warning btn-sm nav-link" href="{% url 'eliminar_cliente' cliente.id %}">eliminar</a></td>
 
                         </tr>
                     {% endfor %}
