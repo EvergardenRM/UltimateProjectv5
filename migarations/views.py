@@ -76,14 +76,14 @@ def login_view(request):
 
         else:
             print('usuario no auntenticado')
-            messages.error(request,'Usuario o Contraseña no  Valida')
+            messages.error(request,'Usuario o Contraseña no  Valido')
 
 
     return render(request,"Login.html",{})
 
 def logout_view(request):
     logout(request)
-    messages.error(request,'sesion ha sido cerrado satisfactorios')
+    messages.error(request,'La sesion ha sido cerrada satisfactoriamente')
     return redirect('login')
 def register(request):
     form = RegisterForm(request.POST or None)  # valida  que si hay elementos post
