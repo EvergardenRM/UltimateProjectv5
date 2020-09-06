@@ -1,0 +1,45 @@
+{% extends 'caja.html' %}
+{%  load static %}
+{% block tema %}<h1>Herramientas de Clientes</h1>{% endblock %}
+	    <!-- Contenido Principal -->
+        {% block contert %}
+	    <div class="container">
+        <div class="col-md-13" style="margin-top: 70px;">
+
+            <h2> Tabla de Marcas </h2>
+            <div class="ml-auto float-right">
+                <h1></h1>
+                <a class="btn btn-primary btn-sm"  role="button" href="{% url 'crear_marca' %}">+ Crear un Dato</a>
+                <h1></h1>
+            </div>
+            <div class="table-responsive ">
+                <table class="table table-striped table-sm table-hover table-bordered">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th>#</th>                     
+                        <th>Nombre</th>
+                        <th>Estado</th>
+                        <th>Editar</th>
+                        <th>Eliminar</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    {% for marca in marca %}
+                        <tr>
+                            <td>{{ marca.id }}</td>
+                            <td>{{ marca.nombre }}</td>
+                            <td>{{ marca.estado }}</td>
+
+                            <td><a class="btn-success btn-sm nav-link" href="modificar_marca">Editar</a></td>
+                            <td><a class="btn-warning btn-sm nav-link" href="{% url 'eliminar_marca' marca.id %}">eliminar</a></td>
+
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+           
+        </div>
+        </div>	          
+{% endblock %}

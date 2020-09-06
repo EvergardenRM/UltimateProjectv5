@@ -4,11 +4,28 @@
 {% endblock %}
 
 {% block contert %}
-    <h2> Crear Cliente </h2>
-    <form method="POST" action = "{% url 'crearcliente' %}">
-        {% csrf_token %}
-        {{ formcliente.as_p  }}
+<h2> Ingresar Marca </h2>
+    <form method="POST">
+        
+                {% csrf_token %}
+                {% for i in formcliente %}
+                    <ul class="form-group row">
+                        <ul class="col-sm-1 col-form-label">
+                            {{i.label_tag}}
+                        </ul>              
+                        <ul class="col-sm-3">
+                            {{i}} 
+                        </ul>  
+                    </ul>
 
-        <button type="submit" class="btn btn-success">Crear Cliente</button>
-    </form>
+                {% endfor %}
+                
+                     
+                
+    
+        
+    
+    
+    <button type="submit" class="btn btn-success">Crear Nueva Marca</button>
+</form>
 {% endblock %}

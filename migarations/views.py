@@ -8,9 +8,10 @@ from django.contrib.auth import login as do_login
 from  django.contrib.auth import login, logout
 from django.contrib.auth import authenticate
 from django.contrib import messages
-from UltimateProjectv5.forms import RegisterForm, ClienteForm, ProductoForm
+from UltimateProjectv5.forms import *
 from django.contrib.auth.models import User
 from .models import Cliente, Producto
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 
@@ -39,11 +40,12 @@ def recibo_factura(request,):
     return render(request,"recibo_factura.html")
 def factura(request,):
     return render(request,"factura.html")
+@login_required(login_url='/')
 def ingresar_clientes(request,plantilla= "ingresar_cliente.html"):
-    clientes = list(Cliente.objects.all())
+    clientes = list(Cliente.objects.filter(estado = 1 ))
     return render(request, plantilla, {'clientes': clientes})
 def producto_caja(request,plantilla= "producto_caja.html"):
-    productos = list(Producto.objects.all())
+    productos = list(Producto.objects.filter(estado = 1))
     return render(request, plantilla, {'productos': productos})
 
 def entradas(request,):
@@ -91,7 +93,7 @@ def register(request):
         username = form.cleaned_data.get('username')
         email = form.cleaned_data.get('email')
         password = form.cleaned_data.get('password')
-        user = User.objects.create_user(username,email,password)
+        user = User.objects.create_user(username, email,password)
         #user =form.save()
         if user:
             login(request,user)
@@ -130,10 +132,12 @@ def modificarcliente(request, pk ,plantilla="modificarcliente.html"):
     return render(request, plantilla, {'formcliente': formcliente})
 def eliminarcliente(request, pk, plantilla="eliminarcliente.html"):
     if request.method == "POST":
+        estado = Cliente.objects.get(pk=pk)
+        estado.estado = 0 
         cliente = get_object_or_404(Cliente, pk=pk)
         formCliente = ClienteForm(request.POST or None, instance=cliente)
         if formCliente.is_valid():
-            cliente.delete()
+            estado.save()
         return redirect("ingresar_factura")
     else:
         cliente = get_object_or_404(Cliente, pk=pk)
@@ -177,3 +181,43 @@ def eliminarproducto(request, pk, plantilla="eliminarproducto.html"):
 
 
     return render(request, plantilla, {'formproducto': formproducto})
+def crearmarca(request, plantilla="FormMarca.html"):
+    if request.method == "POST":
+        formmarca = MarcaForm(request.POST or None)
+        if formmarca.is_valid():
+            formmarca.save()
+            return redirect("producto_caja")
+    else:
+        formmarca = MarcaForm()
+    return render(request, plantilla, {'formmarca': formmarca})
+
+def marca(request,plantilla= "marca.html"):
+    marca = list(Marca.objects.filter(estado = 1))
+    return render(request, plantilla, {'marca': marca})
+
+def modificarmarca(request, pk, plantilla="elimitar_marca.html"):
+    if request.method == "POST":
+        marca = get_object_or_404(Marca, pk=pk)
+        formmarca = MarcaForm(request.POST or None, instance=marca)       
+        if formmarca.is_valid():
+            formmarca.save()
+            return redirect("marca")
+    else:
+        marca = get_object_or_404(Marca, pk=pk)
+        formmarca = MarcaForm(request.POST or None, instance=marca)
+    return render(request, plantilla, {'formmarca': formmarca})
+def eliminarmarca(request, pk, plantilla="elimitar_marca.html"):
+    if request.method == "POST":
+        estado = Marca.objects.get(pk=pk)
+        estado.estado = 0 
+        marca = get_object_or_404(Marca, pk=pk)
+        formmarca = MarcaForm(request.POST or None, instance=marca)
+        marca = get_object_or_404(Marca, pk=pk)     
+        if formmarca.is_valid():             
+            estado.save()
+            return redirect("marca")
+    else:
+        marca = get_object_or_404(Marca, pk=pk)
+        formmarca = MarcaForm(request.POST or None, instance=marca)
+    return render(request, plantilla, {'formmarca': formmarca})
+

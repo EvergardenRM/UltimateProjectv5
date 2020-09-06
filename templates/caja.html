@@ -9,11 +9,19 @@
               <a class="nav-link" href="{% url 'ingresar_factura' %}">Clientes</a>
             </li>
             <li class="nav-item">
+              <a class="nav-link" href="{% url 'crear_marca' %}">Marca</a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link" href="{% url 'facturas' %}">Facturacion</a>
 
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'producto_caja' %}">Producto</a>
+            <li class="nav-item dropdown">             
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Producto</a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <a class="dropdown-item"" href="{% url 'producto_caja' %}">Producto</a>
+                <a class="dropdown-item"" href="{% url 'crear_marca' %}">Crear Marca</a>
+                <a class="dropdown-item"" href="{% url 'marca' %}">Marca</a>
+              </div>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{%  url 'help_caja' %}">Help</a>

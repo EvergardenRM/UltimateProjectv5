@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 # Create your models here.
 class project(models.Model):
     title = models.CharField(max_length=200)
@@ -34,24 +34,85 @@ class Cliente(models.Model):
     email = models.EmailField()
     edad = models.IntegerField()
     sexo = models.CharField(max_length=20)
+    estado = models.IntegerField(default=1)
 
     class Meta:
         db_table = "cliente"
         verbose_name = "cliente"
-        verbose_name_plural = "personas"
+        verbose_name_plural = "clientes"
+
+class Marca(models.Model):
+    nombre = models.CharField(max_length=100)
+    f_creacion = models.DateTimeField(auto_now_add=True)
+    estado = models.IntegerField(default=1)
+    class Meta:
+        db_table = "marca"
+        verbose_name = "Marca"
+        verbose_name_plural = "Marcas"
 
 class Producto(models.Model):
     nombre = models.CharField(max_length=200)
     descripcion = models.CharField(max_length=200)
     precio = models.DecimalField(max_digits=6, decimal_places=2)
+    marca_id = models.ForeignKey(Marca, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
     update = models.DateTimeField(auto_now=True)
+    estado = models.IntegerField(default=1)
 
     class Meta:
         db_table = "producto"
         verbose_name = "producto"
         verbose_name_plural = "productos"
+        ordering = ["descripcion"]
+    def __str__(self):
+        return self.descripcion
 
-    
+class Cabecera_factura(models.Model):
+    codigo_factura = models.CharField( max_length=15)
+    cliente_id = models.OneToOneField(Cliente, on_delete=models.CASCADE)
+    f_emision = models.DateTimeField(auto_now_add=True)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    total_pagar = models.DecimalField( max_digits=10, decimal_places=2)
 
+    class Meta:
+        db_table = "cabecera_factura"
+        verbose_name = "cabecera_factura"
+        verbose_name_plural = "cabecera_facturas"
 
+class Detalle_factura(models.Model):
+    producto_id = models.ForeignKey(Producto, on_delete=models.CASCADE)
+    cabecera_f_id = models.ForeignKey(Cabecera_factura, on_delete=models.CASCADE)
+    cantidad = models.IntegerField()
+    subtotal = models.DecimalField(max_digits=10, decimal_places=2)
+    iva = models.DecimalField( max_digits=10, decimal_places=2)
+    total_pagar = models.DecimalField( max_digits=10, decimal_places=2)
+    f_emision = models.DateTimeField(auto_now_add=True)
+    class Meta:
+        db_table = "detalle_factura"
+        verbose_name = "detalle_factura"
+        verbose_name_plural = "detalle_facturas"
+class Entrada_producto(models.Model):
+    Producto_id = models.ForeignKey(Producto, on_delete=models.CASCADE)
+    descripcion = models.CharField( max_length=100)
+    precio = models.DecimalField( max_digits=10, decimal_places=2)
+    cantidad = models.IntegerField()
+    f_creacion = models.DateTimeField(auto_now_add=True)
+    monto = models.DecimalField( max_digits=10, decimal_places=2)
+    class Meta:
+        db_table = "entrada_producto"
+        verbose_name = "entrada_producto"
+        verbose_name_plural = "entrada_productos"
+
+class Salida_producto(models.Model):
+    Producto_id = models.ForeignKey(Producto, on_delete=models.CASCADE)
+    descripcion = models.CharField( max_length=100)
+    precio = models.DecimalField( max_digits=10, decimal_places=2)
+    cantidad = models.IntegerField()
+    monto = models.DecimalField( max_digits=10, decimal_places=2)
+    f_creacion = models.DateTimeField(auto_now_add=True)
+    class Meta:
+        db_table = "salida_producto"
+        verbose_name = "salida_producto"
+        verbose_name_plural = "salida_productos"
+
+   

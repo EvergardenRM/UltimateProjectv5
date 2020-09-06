@@ -1,5 +1,5 @@
 from django import forms
-from migarations.models import Cliente, Producto
+from migarations.models import *
 from django.contrib.auth.models import User
 class RegisterForm(forms.Form):
     username = forms.CharField(required=True,max_length=50,widget=forms.TextInput(attrs={'class':'form-control', 'id': 'username'}))
@@ -20,11 +20,44 @@ class RegisterForm(forms.Form):
             self.add_error('password2', 'el password no coincide')
 
 class ClienteForm(forms.ModelForm):
+    cedula = forms.CharField(required=True,max_length=50,widget=forms.TextInput(attrs={'class':'form-control'}))   
+    nombre = forms.CharField(required=True,max_length=50,widget=forms.TextInput(attrs={'class':'form-control'}))   
+    apellido = forms.CharField(required=True,max_length=50,widget=forms.TextInput(attrs={'class':'form-control'}))   
+    edad = forms.CharField(required=True,max_length=50,widget=forms.TextInput(attrs={'class':'form-control'}))   
+    email = forms.CharField(required=True,max_length=50,widget=forms.TextInput(attrs={'class':'form-control'}))   
+    sexo = forms.CharField(required=True,max_length=50,widget=forms.TextInput(attrs={'class':'form-control'}))   
+
     class Meta:
         model = Cliente
-        fields=['cedula','nombre', 'apellido', 'edad','email','sexo']
+        fields=[
+            'cedula',
+            'nombre',
+            'apellido',
+            'edad',
+            'email',
+            'sexo'
+            ]
+        labels = {
+            'nombre': 'Nombre',
+            'cedula': 'Cedula',
+            'Apellido': 'Apellido',
+            'Edad': 'Edad',
+            'Email': 'Email',
+            'Sexo': 'Sexo',
+            
+
+        }
+        
 class ProductoForm(forms.ModelForm):
     
     class Meta:
         model = Producto
         fields = ('nombre', 'descripcion','precio')
+
+class MarcaForm(forms.ModelForm):
+    nombre = forms.CharField(required=True,max_length=50,widget=forms.TextInput(attrs={'class':'form-control'}), label ="Nombre")   
+    class Meta:
+        model = Marca
+        fields =("nombre",)
+
+

@@ -1,0 +1,22 @@
+{% extends "caja.html" %}
+{% load static %}
+{% block tema %}
+  <h1>Marca</h1>
+{% endblock tema %}
+{% block contert %}
+<h2> Modificar Marca </h2>
+    <form method="POST">
+        <div class="form-group row">
+                {% csrf_token %}
+                {% for i in formmarca %}
+                    <li>{{i.label_tag}}</li>               
+                    <div class="col-sm-5">
+                    {{i}} 
+                    </div>                          
+                {% endfor %}
+                                   
+        </div>
+       
+    <button type="submit" class="btn btn-success">Modificar Marca</button>
+</form>
+{% endblock contert %}

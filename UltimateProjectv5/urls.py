@@ -47,4 +47,8 @@ urlpatterns = [
     path('crear_producto/', views.crearproducto, name="crear_producto"),
     path('modificar_producto/<int:pk>', views.modificarproducto, name="modificar_producto"),
     path('eliminar_producto/<int:pk>', views.eliminarproducto, name="eliminar_producto"),
+    path('crear_marca/', views.crearmarca, name="crear_marca"),
+    path('eliminar_marca/<int:pk>', views.eliminarmarca, name="eliminar_marca"),
+    path('marca/', views.marca, name="marca"),
+    path('eliminar_marca/<int:pk>', views.eliminarmarca, name="modificar_marca"),
 ]
