@@ -38,7 +38,8 @@
                     </tr>
                     </thead>
                     <tbody>
-
+                    
+                      
                     {% for i in object_list %}
                         <tr>
                             <td>{{ i.id }}</td>
@@ -52,7 +53,7 @@
                             <td>{{ i.iva}}</td>
                             <td>{{i.total_pagar}}</td>
 
-                            <td><a class="btn-success btn-sm nav-link" href="#">Editar</a></td>
+                            <td><a class="btn-success btn-sm nav-link" href="{% url 'update_factura' i.id %}">Editar</a></td>
                             <td><a class="btn-warning btn-sm nav-link" href="#">eliminar</a></td>
 
                         </tr>

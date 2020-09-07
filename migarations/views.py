@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponseRedirect, HttpResponse
 from django.http import  HttpResponseRedirect
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.shortcuts import render,  HttpResponse, redirect, get_object_or_404
 from django.shortcuts import redirect
 from django.contrib.auth.forms import AuthenticationForm
@@ -60,8 +60,22 @@ def producto_caja(request,plantilla= "producto_caja.html"):
     productos = list(Producto.objects.filter(estado = 1))
     return render(request, plantilla, {'productos': productos})
 
-def entradas(request,):
-    return render(request,"entrada_mercaderia.html")
+def entradas(request,plantilla='entrada_mercaderia.html'):
+    busqueda = request.GET.get('buscar')
+    entradas = list(Entrada_producto.objects.filter(estado=1))
+    if busqueda:
+        entradas = list(Entrada_producto.objects.filter(
+            
+            Q(descripcion__icontains = busqueda) |
+            Q(cantidad__icontains = busqueda) |
+            Q(monto__icontains = busqueda)
+            ).distinct())
+    else:
+        return render(request, plantilla, {'entradas': entradas})
+    return render(request,plantilla,{'entradas': entradas })
+
+
+
 def salidas(request,):
     return render(request,"salida_mercaderia.html")
 def producto_bodega(request,):
@@ -242,10 +256,14 @@ def eliminarmarca(request, pk, plantilla="elimitar_marca.html"):
     return render(request, plantilla, {'formmarca': formmarca})
 
 
-class FacturaListView(ListView):
+class FacturaListView(ListView):     
     model = Detalle_factura
     template_name = "factura.html"
-
+    
+    def get_queryset(self): 
+        busqueda = self.kwargs.get('buscar')  
+        print (busqueda) 
+        return Detalle_factura.objects.filter(estado=1)
 
 class Detalle_facturaCreateView(CreateView):
     model = Detalle_factura
@@ -273,3 +291,74 @@ class Detalle_facturaCreateView(CreateView):
         else:
             return self.render_to_response(self.get_context_data(form=form , form2=form2))
 
+def crear_entrada(request, plantilla='crear_entradas_m.html'):
+    if request.method == 'POST':
+        form = Entrada_productoForm(request.POST or None)
+        if form.is_valid():
+            form.save()
+            return redirect("entrada_producto")
+    else:
+        form = Entrada_productoForm()
+    return render(request,plantilla, {'form' : form})
+
+def modificar_entrada(request,pk , plantilla="modificar_entrada.html"):
+    if request.method =='POST':
+        entradas = get_object_or_404(Entrada_producto, pk=pk)
+        form = Entrada_productoForm(request.POST or None, instance = entradas )
+        if form.is_valid():
+            form.save()
+            return redirect("entrada_producto")
+    else:
+        entradas = get_object_or_404(Entrada_producto, pk=pk)
+        form = Entrada_productoForm(request.POST or None,instance=entradas)
+    return render(request,plantilla,{'form': form})
+def eliminar_entrada(request, pk, plantilla="eliminar_entrada.html"):
+    if request.method =='POST':
+        estado = Entrada_producto.objects.get(pk=pk)
+        estado.estado = 0
+        entrada = get_object_or_404(Entrada_producto,pk=pk)
+        form = Entrada_productoForm(request.POST or None, instance = entrada)
+        if form.is_valid():
+            estado.save()
+            return redirect("entrada_producto")
+    else: 
+        entrada = get_object_or_404(Entrada_producto, pk=pk)
+        form = Entrada_productoForm(request.POST or None,  instance = entrada)
+    return render(request,plantilla, {'form':form})
+
+    
+class Detalle_facturaUpdateView(UpdateView):
+    model = Detalle_factura
+    second_model = Cabecera_factura
+    template_name = "modificar_factura.html"
+    form_class = Detalle_facturaForm
+    second_form_class  = Cabecera_facturaForm
+    success_url = reverse_lazy('principal_factura')
+
+    def get_context_data(self , **kwargs):
+        context = super(Detalle_facturaUpdateView, self) .get_context_data(**kwargs)
+        pk = self.kwargs.get('pk',0)
+        detalle =self.model.objects.get(id= pk)
+        cabecera = self.second_model.objects.get(id = detalle.cabecera_f_id_id)
+        if 'form' not in context:
+            context['form'] = self.form_class()
+        if 'form2' not in context:
+            context['form2']  = self.second_form_class(instance = cabecera)
+        context['id'] =pk
+        return context
+    def post(self, request,*args, **kwargs):
+        self.object = self.get_object
+        id_detalle =['pk']
+        detalle = self.model.objects.get(id=id_detalle)
+        cabecera = self.second_model.objects.get(id=detalle.cabecera_f_id)
+        form = self.form_class(request.POST, instance = detalle)
+        form2 = self.second_form_class(request.POST, instance =cabecera)
+        if form.is_valid() and form2.is_valid():
+            detalles = form.save(commit=False)
+            detalles.cabecera_f_id = form2.save()
+            detalles.save()
+            return HttpResponseRedirect(self.get_success_url())
+        else:
+            return self.render_to_response(self.get_context_data(form=form , form2=form2))
+
+    

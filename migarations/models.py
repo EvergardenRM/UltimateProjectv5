@@ -79,11 +79,13 @@ class Cabecera_factura(models.Model):
     cliente_id = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     f_emision = models.DateTimeField(auto_now_add=True)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    estado = models.IntegerField(default=1)
 
     class Meta:
         db_table = "cabecera_factura"
         verbose_name = "cabecera_factura"
         verbose_name_plural = "cabecera_facturas"
+    
 
     
 
@@ -96,10 +98,13 @@ class Detalle_factura(models.Model):
     iva = models.DecimalField( max_digits=10, decimal_places=2)
     total_pagar = models.DecimalField( max_digits=10, decimal_places=2)
     f_emision = models.DateTimeField(auto_now_add=True)
+    estado = models.IntegerField(default=1)
     class Meta:
         db_table = "detalle_factura"
         verbose_name = "detalle_factura"
         verbose_name_plural = "detalle_facturas"
+    def __str__(self):
+        return self.id
     def save(self):
         self.subtotal = float(float(int(self.cantidad))) * float(self.precio)
         self.iva = float(self.subtotal) * float(0.12)
@@ -114,10 +119,18 @@ class Entrada_producto(models.Model):
     cantidad = models.IntegerField()
     f_creacion = models.DateTimeField(auto_now_add=True)
     monto = models.DecimalField( max_digits=10, decimal_places=2)
+    estado = models.IntegerField(default=1)
     class Meta:
         db_table = "entrada_producto"
         verbose_name = "entrada_producto"
-        verbose_name_plural = "entrada_productos"
+        verbose_name_plural = "entrada_productos" 
+    def __str__(self):
+        return self.descripcion
+    
+    def save(self):
+        self.monto = float(float(int(self.cantidad))) * float(self.precio)
+        super(Entrada_producto, self).save()
+    
 
 class Salida_producto(models.Model):
     Producto_id = models.ForeignKey(Producto, on_delete=models.CASCADE)

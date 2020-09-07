@@ -52,4 +52,10 @@ urlpatterns = [
     path('eliminar_marca/<int:pk>', views.eliminarmarca, name="modificar_marca"),
     path('factura_principal/' ,  views.FacturaListView.as_view() , name="principal_factura"),
     path('factura/' ,  views.Detalle_facturaCreateView.as_view() , name="crear_factura"),
+    path('crear_entrada/' ,  views.crear_entrada , name="crear_entrada"),
+    path('modificar_entrada/<int:pk>' ,  views.modificar_entrada , name="modificar_entrada"),
+    path('eliminar_entrada/<int:pk>' ,  views.eliminar_entrada , name="eliminar_entrada"),
+    path('update_factura/<int:pk>' ,  views.Detalle_facturaUpdateView.as_view() , name="update_factura"),
+
 ]
+
