@@ -1,6 +1,6 @@
 {% extends 'caja.html' %}
 {%  load static %}
-{% block tema %}<h1>Herramientas de Producto</h1>{% endblock %}
+{% block tema %}<h1>Producto</h1>{% endblock %}
 	    <!-- Contenido Principal -->
         {% block contert %}
 	    <div class="container">
@@ -21,7 +21,8 @@
                         <th>#</th>
                         <th>Nombre</th>
                         <th>Descripcion</th>
-                        <th>precio</th>
+                        <th>Precio</th>
+                        <th>Marca</th>
                         
                         <th>Editar</th>
                         <th>Eliminar</th>
@@ -35,6 +36,7 @@
                             <td>{{ producto.nombre }}</td>
                             <td>{{ producto.descripcion }}</td>
                             <td>{{ producto.precio }}</td>
+                            <td>{{ producto.marca_id }}</td>
                             
 
                             <td><a class="btn-success btn-sm nav-link" href="{% url 'modificar_producto' producto.id %}">Editar</a></td>

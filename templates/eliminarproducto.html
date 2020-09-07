@@ -4,12 +4,32 @@
 {% endblock %}
 
 {% block contert %}
-    <h2> Eliminar Producto </h2>
-    <form method="POST" action = "">
-        {% csrf_token %}
-        {{formproducto.as_p}}
+<ul><h2> Eliminar Producto </h2></ul>
+
+    <form method="POST">
         
+                {% csrf_token %}
+
+                {% for i in formproducto %}
+                    <ul class="form-group row">
+                        <ul class="col-sm-2 col-form-label">
+                            {{i.label_tag}}
+                        </ul>              
+                        <ul class="col-sm-3">
+                            {{i}} 
+                        </ul>  
+                    </ul>
+
+                {% endfor %}
+                
+                     
+                
+    
         
-        <button type="submit" class="btn btn-danger">Eliminar Producto</button>
-    </form>
+    
+    <ul>
+        <button type="submit" class="btn btn-success">Eliminar Producto</button>
+    </ul>
+    
+</form>
 {% endblock %}

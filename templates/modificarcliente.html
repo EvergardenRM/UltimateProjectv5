@@ -6,8 +6,18 @@
 {% block contert %}
     <h2> Modificar Cliente </h2>
     <form method="POST">
-        {% csrf_token %}
-        {{ formcliente.as_p  }}
+        {% for i in formcliente %}
+                    <ul class="form-group row">
+                        <ul class="col-sm-1 col-form-label">
+                            {{i.label_tag}}
+                        </ul>              
+                        <ul class="col-sm-3">
+                            {{i}} 
+                        </ul>  
+                    </ul>
+
+                {% endfor %}
+                
 
         <input type="submit" class="btn btn-success" value="Modificar Cliente" />
     </form>

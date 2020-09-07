@@ -1,14 +1,35 @@
 {% extends 'caja.html' %}
 {% block tema %}
-<h1>Crear Producto</h1>
+<h1>Producto</h1>
 {% endblock %}
 
 {% block contert %}
-    <h2> Crear Producto </h2>
-    <form method="POST" action = "{% url 'crear_producto' %}">
-        {% csrf_token %}
-        {{ formproducto.as_p  }}
+<ul><h2> Ingresar Producto </h2></ul>
 
+    <form method="POST">
+        
+                {% csrf_token %}
+
+                {% for i in formproducto %}
+                    <ul class="form-group row">
+                        <ul class="col-sm-2 col-form-label">
+                            {{i.label_tag}}
+                        </ul>              
+                        <ul class="col-sm-3">
+                            {{i}} 
+                        </ul>  
+                    </ul>
+
+                {% endfor %}
+                
+                     
+                
+    
+        
+    
+    <ul>
         <button type="submit" class="btn btn-success">Crear Producto</button>
-    </form>
+    </ul>
+    
+</form>
 {% endblock %}

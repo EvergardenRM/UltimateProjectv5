@@ -40,6 +40,10 @@ class Cliente(models.Model):
         db_table = "cliente"
         verbose_name = "cliente"
         verbose_name_plural = "clientes"
+    def __str__(self):
+        return '{}'.format(self.apellido+' '+self.nombre)
+    
+    
 
 class Marca(models.Model):
     nombre = models.CharField(max_length=100)
@@ -49,6 +53,9 @@ class Marca(models.Model):
         db_table = "marca"
         verbose_name = "Marca"
         verbose_name_plural = "Marcas"
+    def __str__(self):
+        return '{}'.format(self.nombre)
+    
 
 class Producto(models.Model):
     nombre = models.CharField(max_length=200)
@@ -65,24 +72,26 @@ class Producto(models.Model):
         verbose_name_plural = "productos"
         ordering = ["descripcion"]
     def __str__(self):
-        return self.descripcion
+        return '{}'.format(self.nombre)
 
 class Cabecera_factura(models.Model):
     codigo_factura = models.CharField( max_length=15)
-    cliente_id = models.OneToOneField(Cliente, on_delete=models.CASCADE)
+    cliente_id = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     f_emision = models.DateTimeField(auto_now_add=True)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    total_pagar = models.DecimalField( max_digits=10, decimal_places=2)
 
     class Meta:
         db_table = "cabecera_factura"
         verbose_name = "cabecera_factura"
         verbose_name_plural = "cabecera_facturas"
 
+    
+
 class Detalle_factura(models.Model):
     producto_id = models.ForeignKey(Producto, on_delete=models.CASCADE)
     cabecera_f_id = models.ForeignKey(Cabecera_factura, on_delete=models.CASCADE)
     cantidad = models.IntegerField()
+    precio = models.DecimalField(max_digits=10, decimal_places=2)
     subtotal = models.DecimalField(max_digits=10, decimal_places=2)
     iva = models.DecimalField( max_digits=10, decimal_places=2)
     total_pagar = models.DecimalField( max_digits=10, decimal_places=2)
@@ -91,6 +100,13 @@ class Detalle_factura(models.Model):
         db_table = "detalle_factura"
         verbose_name = "detalle_factura"
         verbose_name_plural = "detalle_facturas"
+    def save(self):
+        self.subtotal = float(float(int(self.cantidad))) * float(self.precio)
+        self.iva = float(self.subtotal) * float(0.12)
+        self.total_pagar = self.subtotal + self.iva
+        super(Detalle_factura, self).save()
+        
+    
 class Entrada_producto(models.Model):
     Producto_id = models.ForeignKey(Producto, on_delete=models.CASCADE)
     descripcion = models.CharField( max_length=100)

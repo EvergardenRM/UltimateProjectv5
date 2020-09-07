@@ -1,6 +1,6 @@
-from django.shortcuts import render
-
-# Create your views here.
+from django.shortcuts import render, HttpResponseRedirect, HttpResponse
+from django.http import  HttpResponseRedirect
+from django.views.generic import ListView, CreateView
 from django.shortcuts import render,  HttpResponse, redirect, get_object_or_404
 from django.shortcuts import redirect
 from django.contrib.auth.forms import AuthenticationForm
@@ -12,9 +12,8 @@ from UltimateProjectv5.forms import *
 from django.contrib.auth.models import User
 from .models import Cliente, Producto
 from django.contrib.auth.decorators import login_required
-# Create your views here.
-
-
+from django.db.models import Q
+from django.urls import reverse_lazy 
 
 # Create your views here.
 
@@ -42,8 +41,21 @@ def factura(request,):
     return render(request,"factura.html")
 @login_required(login_url='/')
 def ingresar_clientes(request,plantilla= "ingresar_cliente.html"):
-    clientes = list(Cliente.objects.filter(estado = 1 ))
+    busqueda = request.GET.get("buscar")
+    clientes = list(Cliente.objects.filter(estado = 1))
+    if busqueda:
+        clientes = list(Cliente.objects.filter(
+            Q(nombre__icontains = busqueda) |
+            Q(cedula__icontains = busqueda) |
+            Q(apellido__icontains = busqueda)|
+            Q(email__icontains = busqueda)|
+            Q(edad__icontains = busqueda)|
+            Q(sexo__icontains = busqueda)
+            ).distinct())
+    else:
+        return render(request, plantilla, {'clientes': clientes})
     return render(request, plantilla, {'clientes': clientes})
+@login_required(login_url='/')
 def producto_caja(request,plantilla= "producto_caja.html"):
     productos = list(Producto.objects.filter(estado = 1))
     return render(request, plantilla, {'productos': productos})
@@ -186,13 +198,21 @@ def crearmarca(request, plantilla="FormMarca.html"):
         formmarca = MarcaForm(request.POST or None)
         if formmarca.is_valid():
             formmarca.save()
-            return redirect("producto_caja")
+            return redirect("marca")
     else:
         formmarca = MarcaForm()
     return render(request, plantilla, {'formmarca': formmarca})
 
 def marca(request,plantilla= "marca.html"):
-    marca = list(Marca.objects.filter(estado = 1))
+    busqueda = request.GET.get("buscar")
+    marca = Marca.objects.filter(estado = 1)
+    if busqueda:
+        marca = list(Marca.objects.filter(
+            Q(nombre__icontains = busqueda)
+            ).distinct())
+    else:
+        return render(request, plantilla, {'marca': marca})
+
     return render(request, plantilla, {'marca': marca})
 
 def modificarmarca(request, pk, plantilla="elimitar_marca.html"):
@@ -220,4 +240,36 @@ def eliminarmarca(request, pk, plantilla="elimitar_marca.html"):
         marca = get_object_or_404(Marca, pk=pk)
         formmarca = MarcaForm(request.POST or None, instance=marca)
     return render(request, plantilla, {'formmarca': formmarca})
+
+
+class FacturaListView(ListView):
+    model = Detalle_factura
+    template_name = "factura.html"
+
+
+class Detalle_facturaCreateView(CreateView):
+    model = Detalle_factura
+    template_name = "crear_factura.html"
+    form_class = Detalle_facturaForm
+    second_form_class  = Cabecera_facturaForm
+    success_url = reverse_lazy('principal_factura')
+
+    def get_context_data(self, **kwargs):
+        context = super(Detalle_facturaCreateView,self).get_context_data(**kwargs)
+        if 'form' not in context:
+            context['form'] = self.form_class(self.request.GET)
+        if 'form2' not in context:
+            context['form2']  = self.second_form_class(self.request.GET)
+        return context
+    def post(self, request,*args, **kwargs):
+        self.object = self.get_object
+        form = self.form_class(request.POST)
+        form2 = self.second_form_class(request.POST)
+        if form.is_valid() and form2.is_valid():
+            detalles = form.save(commit=False)
+            detalles.cabecera_f_id = form2.save()
+            detalles.save()
+            return HttpResponseRedirect(self.get_success_url())
+        else:
+            return self.render_to_response(self.get_context_data(form=form , form2=form2))
 

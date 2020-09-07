@@ -52,12 +52,81 @@ class ProductoForm(forms.ModelForm):
     
     class Meta:
         model = Producto
-        fields = ('nombre', 'descripcion','precio')
+        fields = ['nombre',
+         'descripcion',
+         'precio',
+         'marca_id'
+
+         ]
+        labels = {
+            'nombre' : 'Nombre',
+            'descripcion': 'Descripcion',
+            'precio' : 'Precio',
+            'marca_id' : 'marca',
+        
+        }
+        widgets = {
+            'nombre' : forms.TextInput(attrs={'class':'form-control'}),
+            'descripcion' : forms.TextInput(attrs={'class':'form-control'}),
+            'precio' : forms.TextInput(attrs={'class':'form-control'}),
+            'marca_id' : forms.Select(attrs={'class':'form-control'}),
+
+        }
 
 class MarcaForm(forms.ModelForm):
     nombre = forms.CharField(required=True,max_length=50,widget=forms.TextInput(attrs={'class':'form-control'}), label ="Nombre")   
     class Meta:
         model = Marca
         fields =("nombre",)
+class Cabecera_facturaForm(forms.ModelForm):
+    
+    class Meta:
+        model = Cabecera_factura
+        fields = (
+            "codigo_factura",
+            'cliente_id',
+            'user_id',
+            
+             
+        )
+        labels = {
+            'codigo_factura' : 'No_Factura',
+            'cliente_id' : 'Cliente',
+            'user_id' : 'User',
+            
+            
+        }
+        widgets = {
+            'codigo_factura' : forms.TextInput(attrs={'class':'form-control'}),
+            'cliente_id' : forms.Select(attrs={'class':'form-control'}),
+            'user_id' : forms.Select(attrs={'class':'form-control'}),
+            
+        }
 
+class Detalle_facturaForm(forms.ModelForm):
+    
+    class Meta:
+        model = Detalle_factura
+        fields = (
+            'producto_id',
+            'cantidad',
+            'precio',
+                   
+            
 
+        )
+
+        labels = {
+            'producto_id': 'Producto',
+            'cantidad': 'Cantidad',
+            'precio' : 'Precio',
+            
+            
+        }
+        widgets ={
+            'cantidad': forms.TextInput(attrs={'class':'form-control'}),
+            'subtotal': forms.TextInput(attrs={'class':'form-control'}),
+            'producto_id': forms.Select(attrs={'class':'form-control'}),
+            'precio': forms.TextInput(attrs={'class':'form-control'}),
+            
+        }

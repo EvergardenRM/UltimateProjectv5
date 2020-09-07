@@ -1,12 +1,18 @@
 {% extends 'caja.html' %}
 {%  load static %}
-{% block tema %}<h1>Herramientas de Clientes</h1>{% endblock %}
+{% block tema %}<h1>Clientes</h1>{% endblock %}
 	    <!-- Contenido Principal -->
         {% block contert %}
 	    <div class="container">
         <div class="col-md-13" style="margin-top: 70px;">
 
             <h2> Tabla de Clientes </h2>
+            <form class="form-inline">
+                {% csrf_token %}
+                <input class="form-control mr-sm-2" type="search" placeholder="Buscar..." aria-label="buscar" name="buscar" value="">
+                <button  class="btn-success btn-sm" type="submit">Buscar</button>
+              </form>
+
             <div class="ml-auto float-right">
                 <h1></h1>
                 <a class="btn btn-primary btn-sm"  role="button" href="{% url 'crearcliente' %}">+ Crear un Nuevo Cliente</a>

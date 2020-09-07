@@ -4,11 +4,32 @@
 {% endblock %}
 
 {% block contert %}
-    <h2> Modificar Productos </h2>
-    <form method="POST" >
-        {% csrf_token %}
-        {{ formproducto.as_p  }}
+<ul><h2> Modificar Producto </h2></ul>
 
+    <form method="POST">
+        
+                {% csrf_token %}
+
+                {% for i in formproducto %}
+                    <ul class="form-group row">
+                        <ul class="col-sm-2 col-form-label">
+                            {{i.label_tag}}
+                        </ul>              
+                        <ul class="col-sm-3">
+                            {{i}} 
+                        </ul>  
+                    </ul>
+
+                {% endfor %}
+                
+                     
+                
+    
+        
+    
+    <ul>
         <button type="submit" class="btn btn-success">Modificar Producto</button>
-    </form>
+    </ul>
+    
+</form>
 {% endblock %}

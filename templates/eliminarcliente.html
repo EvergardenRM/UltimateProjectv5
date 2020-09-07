@@ -7,7 +7,18 @@
     <h2> Eliminar Cliente </h2>
     <form method="POST" action = "">
         {% csrf_token %}
-        {{ formcliente.as_p  }}
+        {% for i in formcliente %}
+                    <ul class="form-group row">
+                        <ul class="col-sm-1 col-form-label">
+                            {{i.label_tag}}
+                        </ul>              
+                        <ul class="col-sm-3">
+                            {{i}} 
+                        </ul>  
+                    </ul>
+
+                {% endfor %}
+                
 
         <input type="submit" class="btn btn-danger" value="Eliminar Cliente" />
     </form>

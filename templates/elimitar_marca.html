@@ -6,17 +6,18 @@
 {% block contert %}
 <h2> Eliminar Marca </h2>
     <form method="POST" action = "">
-        <div class="form-group row">
-                {% csrf_token %}
+        {% csrf_token %}
                 {% for i in formmarca %}
-                    <li>{{i.label_tag}}</li>               
-                    <div class="col-sm-5">
-                    {{i}} 
-                    </div>                          
+                    <ul class="form-group row">
+                        <ul class="col-sm-1 col-form-label">
+                            {{i.label_tag}}
+                        </ul>              
+                        <ul class="col-sm-3">
+                            {{i}} 
+                        </ul>  
+                    </ul>
+
                 {% endfor %}
-                                   
-        </div>
-       
     <button type="submit" class="btn btn-success">Eliminar Marca</button>
 </form>
 {% endblock contert %}
