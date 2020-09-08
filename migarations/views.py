@@ -348,9 +348,10 @@ class Detalle_facturaUpdateView(UpdateView):
         return context
     def post(self, request,*args, **kwargs):
         self.object = self.get_object
-        id_detalle =['pk']
+        pk = self.kwargs.get('pk',0)
+        id_detalle = pk
         detalle = self.model.objects.get(id=id_detalle)
-        cabecera = self.second_model.objects.get(id=detalle.cabecera_f_id)
+        cabecera = self.second_model.objects.get(id=detalle.cabecera_f_id_id)
         form = self.form_class(request.POST, instance = detalle)
         form2 = self.second_form_class(request.POST, instance =cabecera)
         if form.is_valid() and form2.is_valid():
@@ -362,3 +363,47 @@ class Detalle_facturaUpdateView(UpdateView):
             return self.render_to_response(self.get_context_data(form=form , form2=form2))
 
     
+
+class Detalle_facturaDeleteView(DeleteView):
+    model = Cabecera_factura
+    template_name = "eliminar_factura.html"
+    success_url = reverse_lazy('principal_factura')
+
+
+class Eliminar_facturaUpdateView(UpdateView):
+    model = Detalle_factura
+    second_model = Cabecera_factura
+    template_name = "modificar_factura.html"
+    form_class = Detalle_facturaForm
+    second_form_class  = Cabecera_facturaForm
+    success_url = reverse_lazy('principal_factura')
+
+    def get_context_data(self , **kwargs):
+        context = super(Eliminar_facturaUpdateView, self) .get_context_data(**kwargs)
+        pk = self.kwargs.get('pk',0)
+        detalle =self.model.objects.get(id= pk)
+        cabecera = self.second_model.objects.get(id = detalle.cabecera_f_id_id)
+        if 'form' not in context:
+            context['form'] = self.form_class()
+        if 'form2' not in context:
+            context['form2']  = self.second_form_class(instance = cabecera)
+        context['id'] =pk
+        return context
+    def post(self, request,*args, **kwargs):
+        self.object = self.get_object
+        pk = self.kwargs.get('pk',0)
+        id_detalle = pk
+        estado1 = self.model.objects.get(pk=id_detalle)
+        estado1.estado = 0
+        estado2 = self.second_model.objects.get(pk=id_detalle)
+        estado2.estado = 0
+        detalle = self.model.objects.get(id=id_detalle)
+        cabecera = self.second_model.objects.get(id=detalle.cabecera_f_id_id)
+        form = self.form_class(request.POST, instance = detalle)
+        form2 = self.second_form_class(request.POST, instance =cabecera)
+        if form.is_valid() and form2.is_valid():
+            estado1.save()
+            estado2.save()
+            return HttpResponseRedirect(self.get_success_url())
+        else:
+            return self.render_to_response(self.get_context_data(form=form , form2=form2))

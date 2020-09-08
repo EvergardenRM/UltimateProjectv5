@@ -54,7 +54,7 @@
                             <td>{{i.total_pagar}}</td>
 
                             <td><a class="btn-success btn-sm nav-link" href="{% url 'update_factura' i.id %}">Editar</a></td>
-                            <td><a class="btn-warning btn-sm nav-link" href="#">eliminar</a></td>
+                            <td><a class="btn-warning btn-sm nav-link" href="{% url 'eliminar_factura' i.id %}">eliminar</a></td>
 
                         </tr>
                     {% endfor %}

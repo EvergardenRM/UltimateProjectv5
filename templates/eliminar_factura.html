@@ -1,0 +1,17 @@
+{% extends 'caja.html' %}
+{% block tema %}
+<h1>Factura</h1>
+{% endblock %}
+
+{% block contert %}
+<h2> Eliminar Factura </h2>
+    <form method="POST">   
+                
+        {% csrf_token %}
+        <h3>Deseas Eliminar esta Factura No {{object.codigo_factura}}</h3>
+        
+                
+    <button type="submit" class="btn btn-success">Eliminar Factura</button>
+    <a href="{% url 'principal_factura' %}">Cancelar</a>
+</form>
+{% endblock %}
