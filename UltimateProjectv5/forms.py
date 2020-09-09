@@ -155,3 +155,31 @@ class  Entrada_productoForm(forms.ModelForm):
             'precio' : forms.TextInput(attrs={'class':'form-control'}),
         }
 
+class Salida_productoForm(forms.ModelForm):
+    
+    class Meta:
+        model = Salida_producto
+        fields = ("Producto_id",
+                'descripcion',
+                'cantidad',
+                'precio',
+                
+        )
+
+        labels = {
+            'Producto_id' : 'Producto',
+            'descripcion' : 'Descripcion',
+            'cantidad' : 'Cantidad' ,
+            'precio' : 'Precio',
+
+        }
+        widgets = {
+
+            'Pruducto_id' : forms.Select(attrs={'class':'form-control'}),
+            'descripcion' : forms.TextInput(attrs={'class':'form-control'}),
+            'cantidad '  : forms.TextInput(attrs={'class':'form-control'}),
+            'precio' :  forms.TextInput(attrs={'class':'form-control'}),
+
+
+        }
+

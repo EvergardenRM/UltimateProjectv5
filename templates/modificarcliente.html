@@ -6,6 +6,7 @@
 {% block contert %}
     <h2> Modificar Cliente </h2>
     <form method="POST">
+        {% csrf_token %}
         {% for i in formcliente %}
                     <ul class="form-group row">
                         <ul class="col-sm-1 col-form-label">

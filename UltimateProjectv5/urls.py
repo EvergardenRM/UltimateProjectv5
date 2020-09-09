@@ -58,6 +58,8 @@ urlpatterns = [
     path('update_factura/<int:pk>' ,  views.Detalle_facturaUpdateView.as_view() , name="update_factura"),
     path('delete_factura/<int:pk>' ,  views.Detalle_facturaDeleteView.as_view() , name="delete_factura"),
     path('eliminar_factura/<int:pk>' ,  views.Eliminar_facturaUpdateView.as_view() , name="eliminar_factura"),
-
+    path('crear_salida/' ,  views.crear_salida , name="crear_salida"),
+    path('modificar_salida/<int:pk>' ,  views.modificar_salida , name="modificar_salida"),
+    path('eliminar_salida/<int:pk>' ,  views.eliminar_salida , name="eliminar_salida"),
 ]
 

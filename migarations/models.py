@@ -139,9 +139,13 @@ class Salida_producto(models.Model):
     cantidad = models.IntegerField()
     monto = models.DecimalField( max_digits=10, decimal_places=2)
     f_creacion = models.DateTimeField(auto_now_add=True)
+    estado = models.IntegerField(default =1)
     class Meta:
         db_table = "salida_producto"
         verbose_name = "salida_producto"
         verbose_name_plural = "salida_productos"
-
-   
+    def __str__(self):
+        return self.descripcion
+    def save(self):
+        self.monto = float(float(int(self.cantidad))) * float(self.precio)
+        super(Salida_producto,  self).save()
