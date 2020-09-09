@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponseRedirect, HttpResponse
+from django.shortcuts import render,  HttpResponse
 from django.http import  HttpResponseRedirect
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.shortcuts import render,  HttpResponse, redirect, get_object_or_404
@@ -49,8 +49,7 @@ def ingresar_clientes(request,plantilla= "ingresar_cliente.html"):
             Q(cedula__icontains = busqueda) |
             Q(apellido__icontains = busqueda)|
             Q(email__icontains = busqueda)|
-            Q(edad__icontains = busqueda)|
-            Q(sexo__icontains = busqueda)
+            Q(edad__icontains = busqueda)
             ).distinct())
     else:
         return render(request, plantilla, {'clientes': clientes})
@@ -76,8 +75,20 @@ def entradas(request,plantilla='entrada_mercaderia.html'):
 
 
 
-def salidas(request,):
-    return render(request,"salida_mercaderia.html")
+def salidas(request, plantilla="salida_mercaderia.html"):
+    busqueda = request.GET.get('buscar')
+    salidas = list(Salida_producto.objects.filter(estado=1))
+    if busqueda:
+        salidas = list(Salida_producto.objects.filter(      
+            Q(descripcion__icontains = busqueda) |
+            Q(cantidad__icontains = busqueda) |
+            Q(monto__icontains = busqueda)
+            ).distinct())
+    else:
+        salidas = list(Salida_producto.objects.filter(estado=1))
+    return render(request,plantilla,{'salidas': salidas})
+    
+    
 def producto_bodega(request,):
     return render(request,"producto_bodega.html")
 
@@ -196,10 +207,12 @@ def modificarproducto(request, pk ,plantilla="modificarproducto.html"):
     return render(request, plantilla, {'formproducto': formproducto})
 def eliminarproducto(request, pk, plantilla="eliminarproducto.html"):
     if request.method == "POST":
+        estado = Producto.objects.get(pk=pk)
+        estado.estado = 0 
         producto = get_object_or_404(Producto, pk=pk)
         formProducto = ProductoForm(request.POST or None, instance=producto)
         if formProducto.is_valid():
-            producto.delete()
+            estado.save()
             return redirect("producto_caja")
     else:
         producto = get_object_or_404(Producto, pk=pk)
@@ -245,8 +258,7 @@ def eliminarmarca(request, pk, plantilla="elimitar_marca.html"):
         estado = Marca.objects.get(pk=pk)
         estado.estado = 0 
         marca = get_object_or_404(Marca, pk=pk)
-        formmarca = MarcaForm(request.POST or None, instance=marca)
-        marca = get_object_or_404(Marca, pk=pk)     
+        formmarca = MarcaForm(request.POST or None, instance=marca)    
         if formmarca.is_valid():             
             estado.save()
             return redirect("marca")
@@ -261,9 +273,15 @@ class FacturaListView(ListView):
     template_name = "factura.html"
     
     def get_queryset(self): 
-        busqueda = self.kwargs.get('buscar')  
+        busqueda = self.request.GET.get("buscar")
         print (busqueda) 
-        return Detalle_factura.objects.filter(estado=1)
+        if busqueda:
+            return Detalle_factura.objects.filter(   
+            Q(cantidad__icontains = busqueda) 
+             , estado=1 
+            ).distinct()
+        else:
+            return Detalle_factura.objects.filter(estado=1)
 
 class Detalle_facturaCreateView(CreateView):
     model = Detalle_factura
@@ -407,3 +425,38 @@ class Eliminar_facturaUpdateView(UpdateView):
             return HttpResponseRedirect(self.get_success_url())
         else:
             return self.render_to_response(self.get_context_data(form=form , form2=form2))
+
+def crear_salida(request, plantilla='crear_salida.html'):
+    if request.method == 'POST':
+        form = Salida_productoForm(request.POST or None)
+        if form.is_valid():
+            form.save()
+            return redirect("salida_producto")
+    else:
+        form = Entrada_productoForm()
+    return render(request,plantilla, {'form' : form})
+
+def modificar_salida(request,pk , plantilla="modificar_entrada.html"):
+    if request.method =='POST':
+        salidas = get_object_or_404(Salida_producto, pk=pk)
+        form = Salida_productoForm(request.POST or None, instance = salidas )
+        if form.is_valid():
+            form.save()
+            return redirect("salida_producto")
+    else:
+        salidas = get_object_or_404(Salida_producto, pk=pk)
+        form = Salida_productoForm(request.POST or None,instance=salidas)
+    return render(request,plantilla,{'form': form})
+def eliminar_salida(request, pk, plantilla="eliminar_entrada.html"):
+    if request.method =='POST':
+        estado = Salida_producto.objects.get(pk=pk)
+        estado.estado = 0
+        salida = get_object_or_404(Salida_producto,pk=pk)
+        form = Salida_productoForm(request.POST or None, instance = salida)
+        if form.is_valid():
+            estado.save()
+            return redirect("salida_producto")
+    else: 
+        salida = get_object_or_404(Salida_producto, pk=pk)
+        form = Salida_productoForm(request.POST or None,  instance = salida)
+    return render(request,plantilla, {'form':form})
