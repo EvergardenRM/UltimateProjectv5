@@ -1,0 +1,27 @@
+{% extends 'caja.html' %}
+{% block tema %}
+<h1>Factura</h1>
+{% endblock %}
+
+{% block contert %}
+<h2> Ingresar Factura </h2>
+    <form method="POST">   
+                
+        {% csrf_token %}
+        
+        {% for i in form %}
+            <ul class="form-group row">
+                <ul class="col-sm-2 col-form-label">
+                    {{i.label_tag}}
+                </ul>              
+                <ul class="col-sm-3">
+                    {{i}} 
+                </ul>  
+            </ul>
+
+        {% endfor %}
+        
+                
+    <button type="submit" class="btn btn-success">Crear Factura</button>
+</form>
+{% endblock %}

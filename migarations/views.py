@@ -221,11 +221,16 @@ def eliminarproducto(request, pk, plantilla="eliminarproducto.html"):
 
     return render(request, plantilla, {'formproducto': formproducto})
 def crearmarca(request, plantilla="FormMarca.html"):
+    
     if request.method == "POST":
-        formmarca = MarcaForm(request.POST or None)
+        formmarca = MarcaForm(request.POST or None)         
         if formmarca.is_valid():
             formmarca.save()
-            return redirect("marca")
+            nombre= formmarca.cleaned_data.get('nombre')
+            print(nombre)
+            estado = Marca.objects.get(nombre= nombre)
+            print (estado.id)
+            return redirect("prueba", pk= estado.id)
     else:
         formmarca = MarcaForm()
     return render(request, plantilla, {'formmarca': formmarca})
@@ -261,6 +266,7 @@ def eliminarmarca(request, pk, plantilla="elimitar_marca.html"):
         formmarca = MarcaForm(request.POST or None, instance=marca)    
         if formmarca.is_valid():             
             estado.save()
+            print(estado.id)
             return redirect("marca")
     else:
         marca = get_object_or_404(Marca, pk=pk)
@@ -269,7 +275,7 @@ def eliminarmarca(request, pk, plantilla="elimitar_marca.html"):
 
 
 class FacturaListView(ListView):     
-    model = Detalle_factura
+    model = Cabecera_factura
     template_name = "factura.html"
     
     def get_queryset(self): 
@@ -281,14 +287,14 @@ class FacturaListView(ListView):
              , estado=1 
             ).distinct()
         else:
-            return Detalle_factura.objects.filter(estado=1)
+            return Cabecera_factura.objects.filter(estado=1)
+            
 
 class Detalle_facturaCreateView(CreateView):
     model = Detalle_factura
     template_name = "crear_factura.html"
     form_class = Detalle_facturaForm
     second_form_class  = Cabecera_facturaForm
-    success_url = reverse_lazy('principal_factura')
 
     def get_context_data(self, **kwargs):
         context = super(Detalle_facturaCreateView,self).get_context_data(**kwargs)
@@ -305,7 +311,19 @@ class Detalle_facturaCreateView(CreateView):
             detalles = form.save(commit=False)
             detalles.cabecera_f_id = form2.save()
             detalles.save()
-            return HttpResponseRedirect(self.get_success_url())
+            nombre= form2.cleaned_data.get('codigo_factura')
+            print(nombre)
+            estado = Cabecera_factura.objects.get(codigo_factura= nombre)
+            print (estado.id)
+            valor2 = Detalle_factura.objects.filter(cabecera_f_id =estado.id)
+            x= 0
+            for i in valor2:
+                x= 0 + i.subtotal
+            print(x)
+            estado.subtotal = x
+            estado.save()
+
+            return redirect("prueba", pk= estado.id)
         else:
             return self.render_to_response(self.get_context_data(form=form , form2=form2))
 
@@ -454,9 +472,72 @@ def eliminar_salida(request, pk, plantilla="eliminar_entrada.html"):
         salida = get_object_or_404(Salida_producto,pk=pk)
         form = Salida_productoForm(request.POST or None, instance = salida)
         if form.is_valid():
-            estado.save()
-            return redirect("salida_producto")
+            estado.save()       
+            return redirect("principal_factura")
     else: 
         salida = get_object_or_404(Salida_producto, pk=pk)
         form = Salida_productoForm(request.POST or None,  instance = salida)
     return render(request,plantilla, {'form':form})
+
+
+def prueba(request,pk,plantilla= "factura_prueba.html"):
+    if request.method =='POST':
+        estado = Cabecera_factura.objects.get(pk=pk)
+        cabeza = get_object_or_404(Cabecera_factura,pk=pk)
+        form = Cabecera_facturaForm(request.POST or None, instance = cabeza)
+        cabecera_id = Cabecera_factura.objects.get( pk = pk)
+        detalles = Detalle_factura.objects.filter( cabecera_f_id = cabecera_id.id )
+        if form.is_valid():
+            valor2 = Detalle_factura.objects.filter(cabecera_f_id =cabeza )
+            x=0  
+            for n in valor2:
+                x= x+ n.subtotal
+            print(x)
+            cabecera_id.subtotal = x
+            cabecera_id.save()
+            return redirect("principal_factura")
+      
+    else:
+        cabeza = get_object_or_404(Cabecera_factura,pk=pk)
+        form = Cabecera_facturaForm(request.POST or None, instance = cabeza)
+        cabecera_id = Cabecera_factura.objects.get( pk = pk)
+        detalles = Detalle_factura.objects.filter( cabecera_f_id = cabeza )
+        form = Cabecera_facturaForm(request.POST or None, instance = cabeza)
+        valor2 = Detalle_factura.objects.filter(cabecera_f_id=cabeza ) 
+        valor3 = Cabecera_factura.objects.filter(pk=pk )   
+
+        return render(request, plantilla, {'form':form, 'form2': detalles,'form3': valor3})
+        
+    return render(request, plantilla, {'form':form, 'form2': detalles, })
+
+
+def crear_detalles(request,pk,plantilla='Detalles_de_Factura.html'):
+    if request.method == 'POST':
+        dato= int(pk)
+
+        form = Detalle_facturaForm(request.POST or None)
+        
+        if form.is_valid():
+            form.save()
+            valor = Detalle_factura.objects.filter(cabecera_f_id__isnull=True )
+            cabecera_id = Cabecera_factura.objects.get( pk = pk)
+            for i in valor:
+                print(str(i.precio))
+                i.cabecera_f_id_id = dato       
+                i.save()
+            valor2 = Detalle_factura.objects.filter(cabecera_f_id =pk )
+            x=0  
+            for n in valor2:
+                x= x+ n.subtotal
+            print(x)
+            cabecera_id.subtotal = x
+            cabecera_id.save()
+
+            
+            
+
+            return redirect("prueba", pk= pk)
+    else:
+        form = Detalle_facturaForm()
+    return render(request,plantilla, {'form' : form})
+

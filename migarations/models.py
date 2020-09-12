@@ -79,19 +79,30 @@ class Cabecera_factura(models.Model):
     cliente_id = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     f_emision = models.DateTimeField(auto_now_add=True)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    subtotal = models.DecimalField( max_digits=10, decimal_places=2, blank=True, null=True)
+    iva = models.DecimalField( max_digits=10, decimal_places=2, blank=True, null=True)
+    total = models.DecimalField( max_digits=10, decimal_places=2, blank=True, null=True)
     estado = models.IntegerField(default=1)
 
     class Meta:
         db_table = "cabecera_factura"
         verbose_name = "cabecera_factura"
         verbose_name_plural = "cabecera_facturas"
-    
+    def __str__(self):
+        return self.codigo_factura
+    def save(self):
+        if self.subtotal:
+            self.iva = float(self.subtotal) * float(0.12)
+            self.total = float(self.subtotal) + float(self.iva)
+            super(Cabecera_factura, self).save() 
+        else:
+            super(Cabecera_factura, self).save() 
 
     
 
 class Detalle_factura(models.Model):
     producto_id = models.ForeignKey(Producto, on_delete=models.CASCADE)
-    cabecera_f_id = models.ForeignKey(Cabecera_factura, on_delete=models.CASCADE)
+    cabecera_f_id = models.ForeignKey(Cabecera_factura, on_delete=models.CASCADE, blank=True, null=True)
     cantidad = models.IntegerField()
     precio = models.DecimalField(max_digits=10, decimal_places=2)
     subtotal = models.DecimalField(max_digits=10, decimal_places=2)
@@ -147,5 +158,7 @@ class Salida_producto(models.Model):
     def __str__(self):
         return self.descripcion
     def save(self):
-        self.monto = float(float(int(self.cantidad))) * float(self.precio)
-        super(Salida_producto,  self).save()
+        if self.subtotal:
+            self.monto = float(float(int(self.cantidad))) * float(self.precio)
+            super(Salida_producto,  self).save()
+

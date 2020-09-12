@@ -38,7 +38,7 @@
                             <td>{{ marca.nombre }}</td>
                             <td>{{ marca.estado }}</td>
 
-                            <td><a class="btn-success btn-sm nav-link" href="modificar_marca">Editar</a></td>
+                            <td><a class="btn-success btn-sm nav-link" href="{% url 'modificar_marca' marca.id %}">Editar</a></td>
                             <td><a class="btn-warning btn-sm nav-link" href="{% url 'eliminar_marca' marca.id %}">eliminar</a></td>
 
                         </tr>

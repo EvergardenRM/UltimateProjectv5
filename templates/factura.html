@@ -27,14 +27,13 @@
                         <th>No Factura</th>
                         <th>Cliente</th>
                         <th>Usuario</th>
-                        <th>Producto</th>
-                        <th>Cantidad</th>
-                        <th>Precio/U</th>
-                        <th>Subtotal</th>
-                        <th>Iva 12%</th>
-                        <th>Total Pagar</th>
+                        <th>SubTotal</th>
+                        <th>Iva 14%</th>
+                        <th>Total</th>
+                        
                         <th>Editar</th>
                         <th>Eliminar</th>
+                        <th>Ver</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -43,18 +42,18 @@
                     {% for i in object_list %}
                         <tr>
                             <td>{{ i.id }}</td>
-                            <td>{{ i.cabecera_f_id.codigo_factura }}</td>
-                            <td>{{ i.cabecera_f_id.cliente_id}}</td>
-                            <td>{{ i.cabecera_f_id.user_id}}</td>
-                            <td>{{ i.producto_id }}</td>         
-                            <td>{{ i.cantidad }}</td>
-                            <td>{{ i.precio}}</td>
-                            <td>{{ i.subtotal }}</td>
+                            <td>{{ i.codigo_factura}}</td>
+                            <td>{{ i.cliente_id}}</td>
+                            <td>{{ i.user_id}}</td>
+                            <td>{{ i.subtotal}}</td>
                             <td>{{ i.iva}}</td>
-                            <td>{{i.total_pagar}}</td>
+                            <td>{{ i.total}}</td>
+
+                            
 
                             <td><a class="btn-success btn-sm nav-link" href="{% url 'update_factura' i.id %}">Editar</a></td>
                             <td><a class="btn-warning btn-sm nav-link" href="{% url 'eliminar_factura' i.id %}">eliminar</a></td>
+                            <td><a class="btn-success btn-sm nav-link" href="{% url 'prueba' i.id %}">Ver</a></td>
 
                         </tr>
                     {% endfor %}

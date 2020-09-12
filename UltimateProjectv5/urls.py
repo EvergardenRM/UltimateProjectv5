@@ -47,9 +47,9 @@ urlpatterns = [
     path('modificar_producto/<int:pk>', views.modificarproducto, name="modificar_producto"),
     path('eliminar_producto/<int:pk>', views.eliminarproducto, name="eliminar_producto"),
     path('crear_marca/', views.crearmarca, name="crear_marca"),
-    path('eliminar_marca/<int:pk>', views.eliminarmarca, name="eliminar_marca"),
+    path('modificar_marca/<int:pk>', views.modificarmarca, name="modificar_marca"),
     path('marca/', views.marca, name="marca"),
-    path('eliminar_marca/<int:pk>', views.eliminarmarca, name="modificar_marca"),
+    path('eliminar_marca/<int:pk>', views.eliminarmarca, name="eliminar_marca"),
     path('factura_principal/' ,  views.FacturaListView.as_view() , name="principal_factura"),
     path('factura/' ,  views.Detalle_facturaCreateView.as_view() , name="crear_factura"),
     path('crear_entrada/' ,  views.crear_entrada , name="crear_entrada"),
@@ -61,5 +61,7 @@ urlpatterns = [
     path('crear_salida/' ,  views.crear_salida , name="crear_salida"),
     path('modificar_salida/<int:pk>' ,  views.modificar_salida , name="modificar_salida"),
     path('eliminar_salida/<int:pk>' ,  views.eliminar_salida , name="eliminar_salida"),
+    path('prueba_marca/<int:pk>' ,  views.prueba , name="prueba"),
+    path('prueba_2/<int:pk>' ,  views.crear_detalles , name="detalles_f"),
 ]
 
