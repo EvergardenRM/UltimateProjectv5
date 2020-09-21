@@ -8,6 +8,18 @@
 {% block navegacion %}
 
     <li class="nav-item">
+      
+      
+        
+      
+      {% if request.user.is_authenticated %}
+        
+      
+      
+        
+          
+        
+      {% if user.rol_usuario.rol.nombre == 'Empleado' %}     
               <a class="nav-link" href="{% url 'caja' %}">Caja</a>
             </li>
             <li class="nav-item">
@@ -17,12 +29,30 @@
             <li class="nav-item">
               <a class="nav-link" href="{%  url 'bodega' %}">Bodega</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'administrador' %}">Administrador</a>
-            </li>
+            
              <li class="nav-item">
               <a class="nav-link" href="{% url 'logout' %}">Cerrar Sesion</a>
             </li>
+            {% endif %}
+        {% if user.rol_usuario.rol.nombre == 'Administrador' %}
+            <a class="nav-link" href="{% url 'home' %}">Inicio</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'caja' %}">Crear Usuario</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'crear_rol' %}">Crear Rol</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'crear_permisos' %}">Asignar Roles</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout' %}">Cerrar Sesion</a>
+          </li>
+        {% endif %}
+        
+          
+      {% endif %}
 {% endblock %}
 {% block tema %}
   <h1>Frio Duran</h1>

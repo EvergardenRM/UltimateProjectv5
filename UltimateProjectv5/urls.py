@@ -63,5 +63,7 @@ urlpatterns = [
     path('eliminar_salida/<int:pk>' ,  views.eliminar_salida , name="eliminar_salida"),
     path('prueba_marca/<int:pk>' ,  views.prueba , name="prueba"),
     path('prueba_2/<int:pk>' ,  views.crear_detalles , name="detalles_f"),
+    path('crear_rol/' ,  views.crear_rol , name="crear_rol"),
+    path('permisos_usuarios/' ,  views.crear_rol_usuario , name="crear_permisos"),
 ]
 

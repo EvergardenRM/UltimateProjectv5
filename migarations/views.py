@@ -9,7 +9,6 @@ from  django.contrib.auth import login, logout
 from django.contrib.auth import authenticate
 from django.contrib import messages
 from UltimateProjectv5.forms import *
-from django.contrib.auth.models import User
 from .models import Cliente, Producto
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
@@ -18,6 +17,7 @@ from django.urls import reverse_lazy
 # Create your views here.
 
 def home(request,):
+    
     return render(request,'base.html')
 
 def inicio(request):
@@ -124,25 +124,15 @@ def logout_view(request):
     logout(request)
     messages.error(request,'La sesion ha sido cerrada satisfactoriamente')
     return redirect('login')
-def register(request):
-    form = RegisterForm(request.POST or None)  # valida  que si hay elementos post
-    if request.method == 'POST' and form.is_valid():
-        username = form.cleaned_data.get('username')
-        email = form.cleaned_data.get('email')
-        password = form.cleaned_data.get('password')
-        user = User.objects.create_user(username, email,password)
-        #user =form.save()
-        if user:
-            login(request,user)
-            messages.success(request, 'Usuario  Creado correctamente')
-            return redirect('home')
-
-        print('Username',username)
-        print('email',email)
-        print('password',password)
-
-
-    return render(request,'Forms_register.html',{'form':form})
+def register(request, plantilla = 'Forms_register.html'):
+    if request.method=="POST":
+        form = UserCreationForm(request.POST or None)
+        if form.is_valid():
+            form.save()
+            return redirect('login')
+    else:
+        form=UserCreationForm()
+    return render(request, plantilla, {'form':form})
 
 def crearcliente(request, plantilla="crearcliente.html"):
     if request.method == "POST":
@@ -221,19 +211,14 @@ def eliminarproducto(request, pk, plantilla="eliminarproducto.html"):
 
     return render(request, plantilla, {'formproducto': formproducto})
 def crearmarca(request, plantilla="FormMarca.html"):
-    
     if request.method == "POST":
-        formmarca = MarcaForm(request.POST or None)         
-        if formmarca.is_valid():
-            formmarca.save()
-            nombre= formmarca.cleaned_data.get('nombre')
-            print(nombre)
-            estado = Marca.objects.get(nombre= nombre)
-            print (estado.id)
-            return redirect("prueba", pk= estado.id)
+        form = MarcaForm(request.POST or None)
+        if form.is_valid():
+            form.save()
+            return redirect("marca")
     else:
-        formmarca = MarcaForm()
-    return render(request, plantilla, {'formmarca': formmarca})
+        form = MarcaForm()
+    return render(request, plantilla, {'formmarca': form})
 
 def marca(request,plantilla= "marca.html"):
     busqueda = request.GET.get("buscar")
@@ -247,7 +232,7 @@ def marca(request,plantilla= "marca.html"):
 
     return render(request, plantilla, {'marca': marca})
 
-def modificarmarca(request, pk, plantilla="elimitar_marca.html"):
+def modificarmarca(request, pk, plantilla="modificar_marca.html"):
     if request.method == "POST":
         marca = get_object_or_404(Marca, pk=pk)
         formmarca = MarcaForm(request.POST or None, instance=marca)       
@@ -482,7 +467,7 @@ def eliminar_salida(request, pk, plantilla="eliminar_entrada.html"):
 
 def prueba(request,pk,plantilla= "factura_prueba.html"):
     if request.method =='POST':
-        estado = Cabecera_factura.objects.get(pk=pk)
+        
         cabeza = get_object_or_404(Cabecera_factura,pk=pk)
         form = Cabecera_facturaForm(request.POST or None, instance = cabeza)
         cabecera_id = Cabecera_factura.objects.get( pk = pk)
@@ -541,3 +526,25 @@ def crear_detalles(request,pk,plantilla='Detalles_de_Factura.html'):
         form = Detalle_facturaForm()
     return render(request,plantilla, {'form' : form})
 
+def crear_rol(request, plantilla = 'crear_rol.html' ):
+    if request.method == 'POST' : 
+        form = RolForm(request.POST or None)
+        if form.is_valid():
+            form.save()
+            return redirect('administrador')
+    
+    else:
+        form = RolForm()
+    return render(request, plantilla, {'form' : form})
+
+def crear_rol_usuario(request, plantilla = 'crear_rol_usuario.html' ):
+    if request.method == 'POST':
+        form = Rol_UsuarioForm(request.POST or None )
+        if form.is_valid():
+    
+            form.save()
+            return redirect('administrador')
+
+    else:
+        form = Rol_UsuarioForm()
+    return render(request, plantilla, {'form': form})

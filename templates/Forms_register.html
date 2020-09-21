@@ -50,10 +50,16 @@
                  
                   <img class="img-fluid" src="{% static 'img/login2.png' %}" alt="" width="150" height="150"> 
                 <form method="post">
-                 {% csrf_token %}
-                    {% for i in form %}
-                        {{ i.label_tag }}
-                        {{ i }}
+                  {% csrf_token %}
+                  {% for i in form %}
+                      <ul class="form-group row">
+                          <ul class="col-sm-2 col-form-label">
+                              {{i.label_tag}}
+                          </ul>              
+                          <ul class="col-sm-5">
+                              {{i}} 
+                          </ul>  
+                      </ul>
                         {% if i.errors %}
                             {{ i.errors }}
                         {% endif %} 
