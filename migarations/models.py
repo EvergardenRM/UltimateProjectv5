@@ -6,6 +6,7 @@ from django.core import validators
 from django.core.validators import RegexValidator, validate_email
 from django.urls import reverse
 # Create your models here.
+from django.contrib import admin 
 class MyUserManager(BaseUserManager):
     def create_user(self, email, date_of_birth, password=None, **kwargs):
         """
@@ -254,10 +255,11 @@ class Rol(models.Model):
         db_table = "rol"
         verbose_name = "Rol"
         verbose_name_plural = "Rols"
+        ordering = ('nombre',)
 
 
     def __str__(self):
-        return '{}'.format(self.rol)
+        return '{}'.format(self.nombre)
 
 class Rol_Usuario(models.Model):
     usuario = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -267,7 +269,7 @@ class Rol_Usuario(models.Model):
         verbose_name = "rolusuario"
         verbose_name_plural = "rolusuarios"
     def __str__(self):
-        return self.rol_id
+        return self.rol_id, 
 
 
     

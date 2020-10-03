@@ -19,15 +19,8 @@
         
           
         
-      {% if user.rol_usuario.rol.nombre == 'Empleado' %}     
+      {% if user.rol_usuario.rol.nombre == 'Caja' %}     
               <a class="nav-link" href="{% url 'caja' %}">Caja</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'cliente' %}">Clientes</a>
-
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{%  url 'bodega' %}">Bodega</a>
             </li>
             
              <li class="nav-item">
@@ -38,18 +31,28 @@
             <a class="nav-link" href="{% url 'home' %}">Inicio</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'caja' %}">Crear Usuario</a>
+            <a class="nav-link" href="{% url 'usuario' %}">Usuario</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'crear_rol' %}">Crear Rol</a>
+            <a class="nav-link" href="{% url 'rol' %}">Rol</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'crear_permisos' %}">Asignar Roles</a>
+            <a class="nav-link" href="{% url 'rol_usuario' %}">Asignar Roles</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'logout' %}">Cerrar Sesion</a>
           </li>
         {% endif %}
+        {% if user.rol_usuario.rol.nombre == 'Bodega' %}     
+              
+            <li class="nav-item">
+              <a class="nav-link" href="{%  url 'bodega' %}">Bodega</a>
+            </li>
+            
+             <li class="nav-item">
+              <a class="nav-link" href="{% url 'logout' %}">Cerrar Sesion</a>
+            </li>
+            {% endif %}
         
           
       {% endif %}

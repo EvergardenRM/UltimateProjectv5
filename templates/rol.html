@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{%  load static %}
+{% block tema %}<h1>Rol</h1>{% endblock %}
+	    <!-- Contenido Principal -->
+        {% block contert %}
+	    <div class="container">
+        <div class="col-md-13" style="margin-top: 70px;">
+
+            <h2> Tabla de Marcas </h2>
+            <form class="form-inline">
+                {% csrf_token %}
+                
+                <input class="form-control mr-sm-2" type="search" placeholder="Buscar..." aria-label="buscar" name="buscar" value="">
+                <button  class="btn-success btn-sm" type="submit">Buscar</button>
+              </form>
+            <div class="ml-auto float-right">
+                
+                <h1></h1>
+                <a class="btn btn-primary btn-sm"  role="button" href="{% url 'crear_rol' %}">+ Crear</a>
+                <h1></h1>
+            </div>
+            <div class="table-responsive ">
+                <table class="table table-striped table-sm table-hover table-bordered">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th>#</th>                     
+                        <th>Rol</th>
+                        
+                        <th>Editar</th>
+                        <th>Eliminar</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    {% for i in form %}
+                        <tr>
+                            <td>{{ i.id }}</td>
+                            <td>{{ i.nombre }}</td>
+                            
+
+                            <td><a class="btn-success btn-sm nav-link" href="{% url 'modificar_rol' i.id %}">Editar</a></td>
+                            <td><a class="btn-warning btn-sm nav-link" href="{% url 'eliminar_rol' i.id %}">eliminar</a></td>
+
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+           
+        </div>
+        </div>	          
+{% endblock %}

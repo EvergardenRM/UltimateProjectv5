@@ -543,8 +543,103 @@ def crear_rol_usuario(request, plantilla = 'crear_rol_usuario.html' ):
         if form.is_valid():
     
             form.save()
-            return redirect('administrador')
+            return redirect('rolr')
 
     else:
         form = Rol_UsuarioForm()
+    return render(request, plantilla, {'form': form})
+
+def usuario(request, plantilla = 'usuario.html'):
+    form = User.objects.all()
+    return render(request, plantilla, {'form' : form})
+
+def crear_usuario(request, plantilla ='crear_usuario.html' ):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST or None)
+        if form.is_valid():
+            form.save()
+            return redirect('usuario')
+    else:
+        form=UserCreationForm()
+    return render(request, plantilla, {'form':form})
+def modificar_usuario (request ,pk, plantilla = 'modificar_usuario.html'):
+    if request.method == "POST":
+        usuario = get_object_or_404(Marca, pk=pk)
+        form = UserCreationForm(request.POST or None, instance=usuario)       
+        if form.is_valid():
+            form.save()
+            return redirect("usuario")
+    else:
+        usuario = get_object_or_404(User, pk=pk)
+        form = UserCreationForm(request.POST or None, instance=usuario)
+    return render(request, plantilla, {'form': form})
+
+def modificar_rol(request ,pk, plantilla = 'modificar_rol.html'):
+    if request.method == "POST":
+        datos = get_object_or_404(Rol, pk=pk)
+        form = RolForm(request.POST or None, instance=datos)       
+        if form.is_valid():
+            form.save()
+            return redirect("rol")
+    else:
+        datos = get_object_or_404(Rol, pk=pk)
+        form = RolForm(request.POST or None, instance=datos)
+    return render(request, plantilla, {'form': form})
+
+def eliminar_rol(request, pk, plantilla="eliminar_rol.html"):
+    if request.method == "POST":
+        estado = Rol.objects.get(pk=pk)
+        estado.estado = 0 
+        datos = get_object_or_404(Rol, pk=pk)
+        form = RolForm(request.POST or None, instance=datos)    
+        if form.is_valid():             
+            estado.save()
+            print(estado.id)
+            return redirect("rol")
+    else:
+        datos = get_object_or_404(Rol, pk=pk)
+        form = RolForm(request.POST or None, instance=datos)
+    return render(request, plantilla, {'form': form})
+
+
+
+def rol(request, plantilla='rol.html'):
+    busqueda = request.GET.get('buscar')
+    form = list(Rol.objects.filter(estado=1))
+    
+    return render(request,plantilla,{'form': form })
+
+
+def rol_usuario(request, plantilla='rol_usuario.html'):
+    busqueda = request.GET.get('buscar')
+    form = list(Rol_Usuario.objects.all())
+    
+    return render(request,plantilla,{'form': form })
+
+
+def modificar_rol_usuario(request ,pk, plantilla = 'modificar_rol_usuario.html'):
+    if request.method == "POST":
+        datos = get_object_or_404(Rol_Usuario, pk=pk)
+        form = Rol_UsuarioForm(request.POST or None, instance=datos)       
+        if form.is_valid():
+            form.save()
+            return redirect("rol_usuario")
+    else:
+        datos = get_object_or_404(Rol_Usuario, pk=pk)
+        form = Rol_UsuarioForm(request.POST or None, instance=datos)
+    return render(request, plantilla, {'form': form})
+
+def eliminar_rol_usuario(request, pk, plantilla="eliminar_rol_usuario.html"):
+    if request.method == "POST":
+        estado = Rol_Usuario.objects.get(pk=pk)
+        estado.estado = 0 
+        datos = get_object_or_404(Rol_Usuario, pk=pk)
+        form = Rol_UsuarioForm(request.POST or None, instance=datos)    
+        if form.is_valid():             
+            estado.save()
+            print(estado.id)
+            return redirect("rol_usuario")
+    else:
+        datos = get_object_or_404(Rol_Usuario, pk=pk)
+        form = Rol_UsuarioForm(request.POST or None, instance=datos)
     return render(request, plantilla, {'form': form})

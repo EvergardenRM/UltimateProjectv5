@@ -65,5 +65,14 @@ urlpatterns = [
     path('prueba_2/<int:pk>' ,  views.crear_detalles , name="detalles_f"),
     path('crear_rol/' ,  views.crear_rol , name="crear_rol"),
     path('permisos_usuarios/' ,  views.crear_rol_usuario , name="crear_permisos"),
+    path('usuario/' ,  views.usuario , name="usuario"),
+    path('crear_usuario/' ,  views.crear_usuario , name="crear_usuario"),
+    path('modificar_usuario/<int:pk>' ,  views.modificar_usuario , name="modificar_usuario"),
+    path('modificar_rol/<int:pk>' ,  views.modificar_rol , name="modificar_rol"),
+    path('eliminar_rol/<int:pk>' ,  views.eliminar_rol , name="eliminar_rol"),
+    path('rol/' ,  views.rol , name="rol"),
+    path('rol_usuario/' ,  views.rol_usuario , name="rol_usuario"),
+    path('modificar_rol_usuario/<int:pk>' ,  views.modificar_rol_usuario , name="modificar_rol_usuario"),
+    path('eliminar_rol_usuario/<int:pk>' ,  views.eliminar_rol_usuario , name="eliminar_rol_usuario"),
 ]
 
