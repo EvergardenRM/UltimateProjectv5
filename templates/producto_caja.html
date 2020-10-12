@@ -8,6 +8,12 @@
             
 
             <h2> Tabla de Producto </h2>
+            <form class="form-inline">
+                {% csrf_token %}
+                
+                <input class="form-control mr-sm-2" type="search" placeholder="Buscar..." aria-label="buscar" name="buscar" value="">
+                <button  class="btn-success btn-sm" type="submit">Buscar</button>
+              </form>
             
             <div class="ml-auto float-right">
                 <h1></h1>

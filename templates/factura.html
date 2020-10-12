@@ -11,6 +11,8 @@
             <form class="form-inline">
                 {% csrf_token %}
                 <input class="form-control mr-sm-2" type="search" placeholder="Buscar..." aria-label="buscar" name="buscar" value="">
+                <input class="form-control mr-sm-2" type="search" placeholder="Buscar..." aria-label="Inicio" name="inicio" value="">
+                <input class="form-control mr-sm-2" type="search" placeholder="Buscar..." aria-label="Final" name="final" value="">
                 <button  class="btn-success btn-sm" type="submit">Buscar</button>
               </form>
 
@@ -26,6 +28,7 @@
                         <th>#</th>
                         <th>No Factura</th>
                         <th>Cliente</th>
+                        
                         <th>Usuario</th>
                         <th>SubTotal</th>
                         <th>Iva 14%</th>

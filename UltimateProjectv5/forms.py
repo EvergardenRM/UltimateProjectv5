@@ -25,12 +25,12 @@ class RegisterForm(forms.Form):
             self.add_error('password2', 'el password no coincide')
 
 class ClienteForm(forms.ModelForm):
-    cedula = forms.CharField(required=True,max_length=50,widget=forms.TextInput(attrs={'class':'form-control'}))   
-    nombre = forms.CharField(required=True,max_length=50,widget=forms.TextInput(attrs={'class':'form-control'}))   
-    apellido = forms.CharField(required=True,max_length=50,widget=forms.TextInput(attrs={'class':'form-control'}))   
-    edad = forms.CharField(required=True,max_length=50,widget=forms.TextInput(attrs={'class':'form-control'}))   
-    email = forms.CharField(required=True,max_length=50,widget=forms.TextInput(attrs={'class':'form-control'}))   
-    sexo = forms.CharField(required=True,max_length=50,widget=forms.TextInput(attrs={'class':'form-control'}))   
+    cedula = forms.CharField(required=True,max_length=50,widget=forms.TextInput(attrs={'class':'form-control','placeholder': 'Cedula'}))   
+    nombre = forms.CharField(required=True,max_length=50,widget=forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Nombre'}))   
+    apellido = forms.CharField(required=True,max_length=50,widget=forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Apellido'}))   
+    edad = forms.CharField(required=True,max_length=50,widget=forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Edad'}))   
+    email = forms.CharField(required=True,max_length=50,widget=forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Email'}))   
+    sexo = forms.CharField(required=True,max_length=50,widget=forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Sexo'}))   
 
     class Meta:
         model = Cliente
@@ -71,15 +71,15 @@ class ProductoForm(forms.ModelForm):
         
         }
         widgets = {
-            'nombre' : forms.TextInput(attrs={'class':'form-control'}),
-            'descripcion' : forms.TextInput(attrs={'class':'form-control'}),
-            'precio' : forms.TextInput(attrs={'class':'form-control'}),
-            'marca_id' : forms.Select(attrs={'class':'form-control'}),
+            'nombre' : forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Nombre'}),
+            'descripcion' : forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Descripcion'}),
+            'precio' : forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Precio'}),
+            'marca_id' : forms.Select(attrs={'class':'form-control', 'placeholder': 'Marca'}),
 
         }
 
 class MarcaForm(forms.ModelForm):
-    nombre = forms.CharField(required=True,max_length=50,widget=forms.TextInput(attrs={'class':'form-control'}), label ="Nombre")   
+    nombre = forms.CharField(required=True,max_length=50,widget=forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Marca'}), label ="Nombre")   
     class Meta:
         model = Marca
         fields =("nombre",)
@@ -102,7 +102,7 @@ class Cabecera_facturaForm(forms.ModelForm):
             
         }
         widgets = {
-            'codigo_factura' : forms.TextInput(attrs={'class':'form-control'}),
+            'codigo_factura' : forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Numero de Factura'}),
             'cliente_id' : forms.Select(attrs={'class':'form-control'}),
             'user_id' : forms.Select(attrs={'class':'form-control'}),
             

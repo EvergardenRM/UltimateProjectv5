@@ -57,6 +57,13 @@ def ingresar_clientes(request,plantilla= "ingresar_cliente.html"):
 @login_required(login_url='/')
 def producto_caja(request,plantilla= "producto_caja.html"):
     productos = list(Producto.objects.filter(estado = 1))
+    busqueda = request.GET.get("buscar")
+    if busqueda:
+        productos = list(Producto.objects.filter(
+            Q(nombre__icontains = busqueda) 
+            ).distinct())
+    else:
+        return render(request, plantilla, {'productos': productos})
     return render(request, plantilla, {'productos': productos})
 
 def entradas(request,plantilla='entrada_mercaderia.html'):
@@ -265,12 +272,17 @@ class FacturaListView(ListView):
     
     def get_queryset(self): 
         busqueda = self.request.GET.get("buscar")
-        print (busqueda) 
+        print (busqueda)
+        inicio = self.request.GET.get("inicio")
+        final = self.request.GET.get("final")
+        if inicio and final  :      
+            return Cabecera_factura.objects.filter(f_emision__range=[inicio, final])
         if busqueda:
             return Detalle_factura.objects.filter(   
             Q(cantidad__icontains = busqueda) 
              , estado=1 
             ).distinct()
+        
         else:
             return Cabecera_factura.objects.filter(estado=1)
             
