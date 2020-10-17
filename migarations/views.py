@@ -13,7 +13,20 @@ from .models import Cliente, Producto
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.urls import reverse_lazy 
-
+#
+import reportlab
+import io
+from django.http import FileResponse
+import time
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
+import io
+from io import BytesIO
+from reportlab.lib import colors
+from reportlab.lib.pagesizes import A4, A5, A2, A3
+from reportlab.lib.styles import *
+from reportlab.lib.units import inch
+from reportlab.platypus import *
+from reportlab.lib.enums import TA_RIGHT, TA_CENTER
 # Create your views here.
 
 def home(request,):
@@ -275,11 +288,10 @@ class FacturaListView(ListView):
         print (busqueda)
         inicio = self.request.GET.get("inicio")
         final = self.request.GET.get("final")
-        if inicio and final  :      
-            return Cabecera_factura.objects.filter(f_emision__range=[inicio, final])
+        
         if busqueda:
-            return Detalle_factura.objects.filter(   
-            Q(cantidad__icontains = busqueda) 
+            return Cabecera_factura.objects.filter(   
+            Q(codigo_factura__icontains = busqueda) 
              , estado=1 
             ).distinct()
         
@@ -655,3 +667,42 @@ def eliminar_rol_usuario(request, pk, plantilla="eliminar_rol_usuario.html"):
         datos = get_object_or_404(Rol_Usuario, pk=pk)
         form = Rol_UsuarioForm(request.POST or None, instance=datos)
     return render(request, plantilla, {'form': form})
+def pdf_factura(request, plantilla="inventario/docentes.html"):
+    # Create a file-like buffer to receive PDF data.
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'filename="lista_factura.pdf"'
+
+    buffer = io.BytesIO()
+
+    doc = SimpleDocTemplate(buffer,
+                            rightMargin=inch / 4,
+                            leftMargin=inch / 4,
+                            topMargin=inch / 2,
+                            bottomMargin=inch / 4,
+                            pagesize=A4)
+    styles = getSampleStyleSheet()
+    styles.add(ParagraphStyle(name='centered',fontName='Times New Roman', alignment=TA_CENTER))
+    styles.add(ParagraphStyle(name='RightAlign', fontName='Times New Roman', align=TA_RIGHT))
+
+    facturas = []
+    styles = getSampleStyleSheet()
+    header = Paragraph("Listado de Facturas", styles['Heading1'])
+    facturas.append(header)
+    headings = ('Id', 'No Factura', 'Cliente', 'Fecha Emision', 'Subtotal',  'Iva12%', 'Total')
+    allfactura = [(d.id, d.codigo_factura, d.cliente_id , d.f_emision,d.subtotal,d.iva, d.total) for d in Cabecera_factura.objects.all()]
+    print
+    allfactura
+
+    t = Table([headings] + allfactura)
+    t.setStyle(TableStyle(
+        [
+            ('GRID', (0, 0), (9, -1), 1, colors.black),
+            ('LINEBELOW', (0, 0), (-1, 0), 2, colors.black),
+            ('BACKGROUND', (0, 0), (-1, 0), colors.lightblue)
+        ]
+    ))
+    facturas.append(t)
+    doc.build(facturas)
+    response.write(buffer.getvalue())
+    buffer.close()
+    return response
