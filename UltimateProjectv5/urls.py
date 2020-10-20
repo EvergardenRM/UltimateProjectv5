@@ -75,5 +75,12 @@ urlpatterns = [
     path('modificar_rol_usuario/<int:pk>' ,  views.modificar_rol_usuario , name="modificar_rol_usuario"),
     path('eliminar_rol_usuario/<int:pk>' ,  views.eliminar_rol_usuario , name="eliminar_rol_usuario"),
     path('pdf_factura/' ,  views.pdf_factura , name="pdf_factura"),
+    path('pdf_cliente/' ,  views.pdf_cliente, name="pdf_cliente"),
+    path('pdf_producto/' ,  views.pdf_producto, name="pdf_producto"),
+    path('pdf_marca/' ,  views.pdf_marca, name="pdf_marca"),
+    path('modificar_detalles/<int:pk>' ,  views.modificar_detalles , name="modificar_detalles"),
+    path('eliminar_detalles/<int:pk>' ,  views.eliminar_detalles , name="eliminar_detalles"),
+    
 ]
+
 

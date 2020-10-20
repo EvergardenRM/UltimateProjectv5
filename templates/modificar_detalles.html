@@ -1,0 +1,23 @@
+{% extends "caja.html" %}
+{% load static %}
+{% block tema %}
+  <h1>Rol</h1>
+{% endblock tema %}
+{% block contert %}
+<h2> Modificar Facturas </h2>
+    <form method="POST" action = "">
+        {% csrf_token %}
+                {% for i in form %}
+                    <ul class="form-group row">
+                        <ul class="col-sm-1 col-form-label">
+                            {{i.label_tag}}
+                        </ul>              
+                        <ul class="col-sm-3">
+                            {{i}} 
+                        </ul>  
+                    </ul>
+
+                {% endfor %}
+    <button type="submit" class="btn btn-success">Modificar Detalles</button>
+</form>
+{% endblock contert %}

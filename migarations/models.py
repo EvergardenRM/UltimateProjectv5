@@ -264,6 +264,7 @@ class Rol(models.Model):
 class Rol_Usuario(models.Model):
     usuario = models.OneToOneField(User, on_delete=models.CASCADE)
     rol = models.ForeignKey(Rol, on_delete=models.CASCADE)
+    estado = models.IntegerField(default =1)
     class Meta:
         db_table = "rolusuario"
         verbose_name = "rolusuario"

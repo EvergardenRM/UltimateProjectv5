@@ -286,8 +286,7 @@ class FacturaListView(ListView):
     def get_queryset(self): 
         busqueda = self.request.GET.get("buscar")
         print (busqueda)
-        inicio = self.request.GET.get("inicio")
-        final = self.request.GET.get("final")
+        
         
         if busqueda:
             return Cabecera_factura.objects.filter(   
@@ -550,6 +549,53 @@ def crear_detalles(request,pk,plantilla='Detalles_de_Factura.html'):
         form = Detalle_facturaForm()
     return render(request,plantilla, {'form' : form})
 
+def modificar_detalles (request, pk , plantilla = 'modificar_detalles.html'):
+    if request.method == "POST":
+        datos = get_object_or_404(Detalle_factura, pk=pk)
+        form = Detalle_facturaForm(request.POST or None, instance=datos)       
+        if form.is_valid():
+            form.save()
+            print(datos.cabecera_f_id)
+            q= str(datos.cabecera_f_id)
+            valor2 = Detalle_factura.objects.filter(cabecera_f_id = q)
+            x=0  
+            for n in valor2:
+                x= x+ n.subtotal
+            print(x)
+            cabecera_id = get_object_or_404(Cabecera_factura, pk=q)
+            cabecera_id.subtotal = x
+            cabecera_id.save()
+            return redirect("prueba", pk= q)
+
+    else:
+        datos = get_object_or_404(Detalle_factura, pk=pk)
+        form = Detalle_facturaForm(request.POST or None, instance=datos)
+    return render(request, plantilla, {'form': form})
+
+def eliminar_detalles (request, pk , plantilla = 'eliminar_detalles.html'):
+    if request.method == "POST":
+        datos = get_object_or_404(Detalle_factura, pk=pk)
+        form = Detalle_facturaForm(request.POST or None, instance=datos)       
+        if form.is_valid():
+            datos2 = Detalle_factura.objects.get(pk = pk )
+            datos2.delete()
+            q= str(datos.cabecera_f_id)
+            valor2 = Detalle_factura.objects.filter(cabecera_f_id = q)
+            x=0  
+            for n in valor2:
+                x= x+ n.subtotal
+            print(x)
+            cabecera_id = get_object_or_404(Cabecera_factura, pk=q)
+            cabecera_id.subtotal = x
+            cabecera_id.save()
+
+            return redirect("prueba", pk = q)
+    else:
+        datos = get_object_or_404(Detalle_factura, pk=pk)
+        form = Detalle_facturaForm(request.POST or None, instance=datos)
+    return render(request, plantilla, {'form': form})
+
+
 def crear_rol(request, plantilla = 'crear_rol.html' ):
     if request.method == 'POST' : 
         form = RolForm(request.POST or None)
@@ -636,7 +682,7 @@ def rol(request, plantilla='rol.html'):
 
 def rol_usuario(request, plantilla='rol_usuario.html'):
     busqueda = request.GET.get('buscar')
-    form = list(Rol_Usuario.objects.all())
+    form = list(Rol_Usuario.objects.filter(estado=1))
     
     return render(request,plantilla,{'form': form })
 
@@ -706,3 +752,131 @@ def pdf_factura(request, plantilla="inventario/docentes.html"):
     response.write(buffer.getvalue())
     buffer.close()
     return response
+
+
+
+def pdf_cliente(request, plantilla="inventario/docentes.html"):
+    # Create a file-like buffer to receive PDF data.
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'filename="lista_cliente.pdf"'
+
+    buffer = io.BytesIO()
+
+    doc = SimpleDocTemplate(buffer,
+                            rightMargin=inch / 4,
+                            leftMargin=inch / 4,
+                            topMargin=inch / 2,
+                            bottomMargin=inch / 4,
+                            pagesize=A4)
+    styles = getSampleStyleSheet()
+    styles.add(ParagraphStyle(name='centered',fontName='Times New Roman', alignment=TA_CENTER))
+    styles.add(ParagraphStyle(name='RightAlign', fontName='Times New Roman', align=TA_RIGHT))
+
+    facturas = []
+    styles = getSampleStyleSheet()
+    header = Paragraph("Listado de Cliente", styles['Heading1'])
+    facturas.append(header)
+    headings = ('Id', 'Cedula', 'Nombre', 'Apellido', 'Edad',  'Sexo', 'Estado')
+    allfactura = [(d.id, d.cedula, d.nombre, d.apellido,d.edad,d.sexo, d.estado) for d in Cliente.objects.all()]
+    print
+    allfactura
+
+    t = Table([headings] + allfactura)
+    t.setStyle(TableStyle(
+        [
+            ('GRID', (0, 0), (9, -1), 1, colors.black),
+            ('LINEBELOW', (0, 0), (-1, 0), 2, colors.black),
+            ('BACKGROUND', (0, 0), (-1, 0), colors.lightblue)
+        ]
+    ))
+    facturas.append(t)
+    doc.build(facturas)
+    response.write(buffer.getvalue())
+    buffer.close()
+    return response
+
+
+
+def pdf_producto(request, plantilla="inventario/docentes.html"):
+    # Create a file-like buffer to receive PDF data.
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'filename="lista_producto.pdf"'
+
+    buffer = io.BytesIO()
+
+    doc = SimpleDocTemplate(buffer,
+                            rightMargin=inch / 4,
+                            leftMargin=inch / 4,
+                            topMargin=inch / 2,
+                            bottomMargin=inch / 4,
+                            pagesize=A4)
+    styles = getSampleStyleSheet()
+    styles.add(ParagraphStyle(name='centered',fontName='Times New Roman', alignment=TA_CENTER))
+    styles.add(ParagraphStyle(name='RightAlign', fontName='Times New Roman', align=TA_RIGHT))
+
+    facturas = []
+    styles = getSampleStyleSheet()
+    header = Paragraph("Listado de Productos", styles['Heading1'])
+    facturas.append(header)
+    headings = ('Id', 'Producto', 'Descripcion', 'Precio ', 'Marca',  'Fecha Actualizacion', 'Estado')
+    allfactura = [(d.id, d.nombre, d.descripcion , d.precio,d.marca_id, d.update, d.estado) for d in Producto.objects.all()]
+    print
+    allfactura
+
+    t = Table([headings] + allfactura)
+    t.setStyle(TableStyle(
+        [
+            ('GRID', (0, 0), (9, -1), 1, colors.black),
+            ('LINEBELOW', (0, 0), (-1, 0), 2, colors.black),
+            ('BACKGROUND', (0, 0), (-1, 0), colors.lightblue)
+        ]
+    ))
+    facturas.append(t)
+    doc.build(facturas)
+    response.write(buffer.getvalue())
+    buffer.close()
+    return response
+
+
+def pdf_marca(request, plantilla="inventario/docentes.html"):
+    # Create a file-like buffer to receive PDF data.
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'filename="lista_factura.pdf"'
+
+    buffer = io.BytesIO()
+
+    doc = SimpleDocTemplate(buffer,
+                            rightMargin=inch / 4,
+                            leftMargin=inch / 4,
+                            topMargin=inch / 2,
+                            bottomMargin=inch / 4,
+                            pagesize=A4)
+    styles = getSampleStyleSheet()
+    styles.add(ParagraphStyle(name='centered',fontName='Times New Roman', alignment=TA_CENTER))
+    styles.add(ParagraphStyle(name='RightAlign', fontName='Times New Roman', align=TA_RIGHT))
+
+    facturas = []
+    styles = getSampleStyleSheet()
+    header = Paragraph("Listado de Marcas", styles['Heading1'])
+    facturas.append(header)
+    headings = ('Id', 'Nombre ', 'Fecha Agregada', 'Estado')
+    allfactura = [(d.id, d.nombre, d.f_creacion , d.estado) for d in Marca.objects.all()]
+    print
+    allfactura
+
+    t = Table([headings] + allfactura)
+    t.setStyle(TableStyle(
+        [
+            ('GRID', (0, 0), (9, -1), 1, colors.black),
+            ('LINEBELOW', (0, 0), (-1, 0), 2, colors.black),
+            ('BACKGROUND', (0, 0), (-1, 0), colors.lightblue)
+        ]
+    ))
+    facturas.append(t)
+    doc.build(facturas)
+    response.write(buffer.getvalue())
+    buffer.close()
+    return response
+
+
+

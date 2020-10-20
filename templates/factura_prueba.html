@@ -61,8 +61,8 @@
                         <td>{{ i.subtotal }}</td>
                         
                          
-                        <td><a class="btn-success btn-sm nav-link" href="#">Editar</a></td>
-                        <td><a class="btn-warning btn-sm nav-link" href="#">eliminar</a></td>
+                        <td><a class="btn-success btn-sm nav-link" href="{% url 'modificar_detalles' i.id %}">Editar</a></td>
+                        <td><a class="btn-warning btn-sm nav-link" href="{% url 'eliminar_detalles' i.id %}">eliminar</a></td>
                 
                         </tr>
                         
